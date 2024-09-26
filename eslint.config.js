@@ -17,6 +17,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:prettier/recommended',
   ],
   overrides: [],
   plugins: ['react', 'react-hooks', 'jsx-a11y'],
