@@ -21,7 +21,6 @@
     /* 절대 경로 */
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
       "@/*": ["src/*"]
     }
   },
