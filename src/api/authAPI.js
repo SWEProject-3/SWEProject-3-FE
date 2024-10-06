@@ -1,9 +1,9 @@
-import instance from './instance';
+import logininstance from './logininstance';
 
 import { API_AUTH } from '@/constants/API';
 
 export const postRegister = (email, password, name) => {
-  return instance({
+  return logininstance({
     url: API_AUTH.REGISTER,
     method: 'POST',
     data: {
@@ -15,7 +15,7 @@ export const postRegister = (email, password, name) => {
 };
 
 export const postLogin = (email, password) => {
-  return instance({
+  return logininstance({
     url: API_AUTH.LOGIN,
     method: 'POST',
     data: {
