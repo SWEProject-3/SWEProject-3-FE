@@ -10,6 +10,10 @@ export default function AppRouter() {
         <Route element={<SplashRouter />}>
           <Route path='/' element={<Home />} />
         </Route>
+        <Route path='/calendar' element={<Home />} />
+        <Route path='/feed' element={<Home />} />
+        <Route path='/search' element={<Home />} />
+        <Route path='/my' element={<Home />} />
       </Routes>
     </BrowserRouter>
   );
