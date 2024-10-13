@@ -18,6 +18,11 @@
   }
 }
 
+.menu-container {
+  display: flex;
+  gap: 2rem;
+}
+
 .menu {
   display: flex;
   flex-direction: column;
