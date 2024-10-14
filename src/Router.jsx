@@ -14,6 +14,7 @@ export default function AppRouter() {
         <Route path='/feed' element={<Home />} />
         <Route path='/search' element={<Home />} />
         <Route path='/my' element={<Home />} />
+        <Route path='/alarm' element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

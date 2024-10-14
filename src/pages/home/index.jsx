@@ -1,4 +1,5 @@
 import Footer from '@/components/footer';
+import Header from '@/components/header';
 import { postLogin, postRegister } from '@/api/authAPI';
 import { useEffect } from 'react';
 
@@ -17,9 +18,8 @@ function Home() {
 
   return (
     <>
-      <div>
-        <h1>Skkuduler</h1>
-      </div>
+      <Header />
+      <div></div>
       <Footer />
     </>
   );
