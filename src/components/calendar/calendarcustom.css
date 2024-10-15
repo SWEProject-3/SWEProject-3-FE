@@ -1,7 +1,8 @@
 .react-calendar {
   width: 100%;
-  border-radius: 0.5rem;
+
   border: 0.1rem solid var(--color-gray-light);
+  border-radius: 0.5rem;
 }
 
 .react-calendar button {
