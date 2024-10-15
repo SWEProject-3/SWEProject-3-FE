@@ -30,11 +30,13 @@
 }
 .react-calendar__navigation {
   display: flex;
-  height: 44px;
+  height: 40px;
   margin-bottom: 4rem;
 }
 .react-calendar__month-view__weekdays__weekday {
   padding: 0 0 1rem 0;
+  border-bottom: 0.1rem solid var(--color-gray-light);
+  margin-bottom: 1rem;
 }
 .react-calendar__month-view__weekdays__weekday:last-child {
   color: var(--color-caution);
