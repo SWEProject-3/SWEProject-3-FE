@@ -1,0 +1,132 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background-color: white;
+}
+
+.header {
+  background-color: rgb(255, 255, 255);
+  position: sticky;
+  z-index: 10;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 0 0.05rem 0.15rem rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin-left: 1rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 0;
+  padding: 1rem 0;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+  background-color: white;
+  padding: 1rem 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.imageContainer {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.profileImage {
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+.editButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #ffffff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.userName {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.userEmail {
+  color: #666;
+  font-size: 1.5rem;
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.menuItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  margin: 0 1rem;
+  background-color: white;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  text-decoration: none;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.menuItem:hover {
+  background-color: #f6f6f6; /* 옅은 회색 배경색 */
+}
+
+.menuItem span {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.deleteAccount {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 50%;
+  padding: 0.5rem;
+  background-color: white;
+  border: none;
+  color: grey;
+  font-size: 1rem;
+  cursor: pointer;
+}
