@@ -1,0 +1,116 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0rem;
+}
+
+.card {
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.cardTitle {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.profileContent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profileImage {
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.userEmail {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.editButton {
+  margin-top: 1rem;
+  width: 100%;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s;
+}
+
+.editButton:hover {
+  background-color: #2563eb;
+}
+
+.scheduleList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.scheduleItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1.2rem;
+}
+
+.scheduleItem:last-child {
+  border-bottom: none;
+}
+
+.scheduleTime {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 767px) {
+  .container,
+  .card {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .cardTitle {
+    font-size: 2.2rem;
+  }
+
+  .userName {
+    font-size: 1.8rem;
+  }
+
+  .userEmail,
+  .editButton,
+  .scheduleItem {
+    font-size: 1.3rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container,
+  .card {
+    width: 28rem;
+  }
+}
