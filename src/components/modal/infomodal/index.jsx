@@ -71,9 +71,9 @@ function InfoModal({ date, data = mockData }) {
       <div className={styles.infoList}>
         {mockData.map((info, i) => (
           <div key={i} className={styles.info}>
-            <div className={styles.eventImgWrapper}>
+            {/* <div className={styles.eventImgWrapper}>
               <img src={info.img} className={styles.eventImg} alt='event' />
-            </div>
+            </div> */}
             <div className={styles.infoWrapper}>
               <div className={styles.title}>{info.title}</div>
               <div className={styles.description}>{info.description}</div>

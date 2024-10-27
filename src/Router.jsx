@@ -5,7 +5,8 @@ import SplashRouter from './router/SplashRouter';
 import CalendarPage from '@/pages/calendar';
 import MyPage from '@/pages/mypage';
 import EditProfilePage from '@/pages/editprofile';
-import SearchPage from '@/pages/search'
+import SearchPage from '@/pages/search';
+import SchedulePage from '@/pages/schedule';
 
 export default function AppRouter() {
   return (
@@ -21,7 +22,6 @@ export default function AppRouter() {
         <Route path='/search' element={<Home />} />
         <Route path='/my' element={<MyPage />} />
         <Route path='/alarm' element={<Home />} />
-        <Route path='/edit-profile' element={<EditProfilePage />} />
       </Routes>
     </BrowserRouter>
   );
