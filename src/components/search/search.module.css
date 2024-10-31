@@ -1,0 +1,220 @@
+
+/* 실제 콘텐츠를 담는 박스 */
+.searchPageWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100dvh;
+    background-color: var(--color-white);
+    position: relative;
+    overflow: hidden;
+
+    @media screen and (max-width: 767px) {
+        width: 100%;
+        padding: 1rem; /* 모바일에서는 padding을 추가해 요소가 화면 가장자리에 붙지 않도록 설정 */
+    }
+
+    @media screen and (min-width: 768px) {
+        width: 360px;
+        padding: 2rem; /* 태블릿 이상에서는 더 넓은 padding 적용 */
+    }
+}
+
+/* 검색 헤더 스타일 (검색창이 포함된 상단 부분) */
+.searchHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1.5rem; /* 아래 내용과 간격 */
+    flex-direction: row;
+}
+
+.searchBack {
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.searchContainer {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1; /* 검색 입력창이 가능한 많이 공간을 차지하도록 */
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 20px;
+    background-color: var(--color-gray-light);
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 16px;
+    border: none;
+    &:focus {
+        outline: none;
+      }
+    margin: 0.5rem;
+    background-color: var(--color-gray-light);
+}
+
+.searchButtonContainer{
+    background-color: transparent;
+    margin: 1.2rem;
+}
+
+.searchIcon img {
+    width: 36px;
+    height: 36px;
+    margin: 1rem;
+    }
+
+/* 최근 검색어 리스트 스타일 */
+.recentSearchContainer {
+    padding-top: 3rem;
+    width: 100%;
+}
+
+.recentSearchTitle {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.recentSearchList {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    white-space:nowrap;
+	overflow-x:scroll;
+}
+
+.recentSearchList::-webkit-scrollbar {
+    width: 0.4rem;
+    height: 0.6rem;
+  }
+.recentSearchList::-webkit-scrollbar-thumb {
+    background-color: #d1d1d1;
+    border-radius: 0.8rem;
+  }
+.recentSearchList::-webkit-scrollbar-track {
+    background-color: #fafafa;
+  }
+
+.searchItem {
+    padding: 0.5rem;
+    background-color : var(--color-gray-light);
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 1rem 0.5rem;
+}
+
+.searchItem:hover {
+    background-color: var(--color-gray-bright);
+}
+
+/* 최근 본 공지 리스트 스타일 */
+.recentNoticeContainer {
+    width: 100%;
+    padding-top: 3rem;
+}
+
+.recentNoticeTitle {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+}
+
+.recentNoticeList {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.noticeItem {
+    padding: 3rem 2rem;
+    margin: 1rem 0rem;
+    border-radius: 30px;
+    border: 2px solid var(--color-gray-light);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+}
+
+.noticeItem:hover {
+    background-color: var(--color-gray-bright);
+}
+
+.noticeItemContent {
+    display: flex;
+    flex-grow: 1;
+}
+
+.noticeItemInfo {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.noitceImageBox {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.noticeItemImage {
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.noticeItemInfo2 {
+    display: flex;
+    flex-direction: column; 
+    gap: 5px;
+    margin-bottom: 1rem;
+
+}
+
+.noticeItemTitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+.noticeItemDate {
+    font-size: 1rem;
+    color: #888;
+}
+
+.noticeItemStats {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.likes {
+    font-size: 1rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.comments {
+    font-size: 1rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.likes::before, .comments::before {
+    margin-right: 5px;
+}
