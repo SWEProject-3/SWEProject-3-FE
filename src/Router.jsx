@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Home from '@/pages/home';
 import SplashRouter from './router/SplashRouter';
+import SearchPage from '@/pages/search'
 
 export default function AppRouter() {
   return (
@@ -12,7 +13,7 @@ export default function AppRouter() {
         </Route>
         <Route path='/calendar' element={<Home />} />
         <Route path='/feed' element={<Home />} />
-        <Route path='/search' element={<Home />} />
+        <Route path='/search' element={<SearchPage />} />
         <Route path='/my' element={<Home />} />
         <Route path='/alarm' element={<Home />} />
       </Routes>
