@@ -14,7 +14,12 @@ function EditProfile() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <img onClick={() => navigate('/my')} src={backIcon} alt='Go Back' />
+        <img
+          onClick={() => navigate('/my')}
+          src={backIcon}
+          className={styles.icon}
+          alt='Go Back'
+        />
         <h1 className={styles.title}>내 정보 수정</h1>
       </header>
 
