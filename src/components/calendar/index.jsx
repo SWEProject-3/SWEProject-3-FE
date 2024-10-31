@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Calendar from 'react-calendar';
-import infoModalStore from '@/store/infoModalStore';
+import useinfoModalStore from '@/store/infoModalStore';
+import useYearMonthStore from '@/store/yearMonthStore';
 import 'react-calendar/dist/Calendar.css';
 import './calendarcustom.css';
 import styles from './calendar.module.css';
@@ -86,11 +87,16 @@ const mockData = [
 function CustomCalendar({ usage, data }) {
   const [eventData, setEventData] = useState(mockData);
   const [selectedDate, setSelectedDate] = useState();
-  const openModal = infoModalStore((state) => state.openInfoModal);
-  const isOpen = infoModalStore((state) => state.isInfoModalOpen);
+  const openModal = useinfoModalStore((state) => state.openInfoModal);
+  const isOpen = useinfoModalStore((state) => state.isInfoModalOpen);
+  const setYearMonth = useYearMonthStore((state) => state.setYearMonth);
   const handleClickCalendar = (date) => {
     setSelectedDate(date);
     openModal();
+  };
+
+  const handleActiveStartDateChange = ({ activeStartDate }) => {
+    setYearMonth(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1);
   };
 
   const tileContent = ({ date, view }) => {
@@ -135,7 +141,10 @@ function CustomCalendar({ usage, data }) {
   return (
     <>
       <div className={styles.calendarWrapper}>
-        <Calendar tileContent={tileContent} />
+        <Calendar
+          tileContent={tileContent}
+          onActiveStartDateChange={handleActiveStartDateChange}
+        />
       </div>
       {isOpen && <InfoModal date={selectedDate} />}
     </>

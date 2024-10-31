@@ -22,6 +22,8 @@ export default function AppRouter() {
         <Route path='/search' element={<Home />} />
         <Route path='/my' element={<MyPage />} />
         <Route path='/alarm' element={<Home />} />
+        <Route path='/schedule' element={<SchedulePage />} />
+        <Route path='feeddetail/:id' element={<Home />} />
       </Routes>
     </BrowserRouter>
   );
