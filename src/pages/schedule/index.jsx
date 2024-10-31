@@ -10,7 +10,6 @@ import plusIcon from '@/assets/schedule/plus.svg';
 import styles from './page.module.css';
 import ScheduleModal from '@/components/modal/schedulemodal';
 import FriendModal from '@/components/modal/friendmodal';
-import { set } from 'react-hook-form';
 
 const friendData = [
   { name: '김철수' },
