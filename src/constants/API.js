@@ -2,6 +2,7 @@ export const API_AUTH = Object.freeze({
   REGISTER: '/auth/register',
   LOGIN: '/auth/login',
   PASSWORD: '/auth/password',
+  CHECK_TOKEN: '/auth/check-token',
 });
 
 export const API_DEPARTMENT = Object.freeze({

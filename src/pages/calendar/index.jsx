@@ -24,9 +24,8 @@ function Home() {
     // const login = async () => {
     //   try {
     //     const res = await postLogin('joeplay0801@naver.com', 'abcd1234!');
-    //     console.log(res.data.data);
-    //     localStorage.setItem('token', res.data.data.accessToken); //
-    //     localStorage.setItem('userId', res.data.data.userId);
+    //     console.log(res.data);
+    //     localStorage.setItem('token', res.data.data);
     //   } catch (error) {
     //     console.error(error);
     //   }
