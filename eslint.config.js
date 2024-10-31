@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  parser: '@typescript-eslint/parser',
+  parser: 'espree',
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
