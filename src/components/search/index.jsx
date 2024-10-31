@@ -102,9 +102,6 @@ function SearchComponent() {
                     {recentNotices.map((noticeItem, index) => (
                         <li key={index} className={styles.noticeItem}>
                             <div className={styles.noticeItemContent}>
-                                <div className={styles.noitceImageBox}>
-                                    <img src={noticeItem.photo} alt={noticeItem.title} className={styles.noticeItemImage} />
-                                </div>
                                 <div className={styles.noticeItemInfo}>
                                     <div className={styles.noticeItemInfo2}>
                                         <p className={styles.noticeItemTitle}>{noticeItem.title}</p>
