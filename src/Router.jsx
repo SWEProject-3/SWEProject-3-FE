@@ -7,6 +7,8 @@ import MyPage from '@/pages/mypage';
 import EditProfilePage from '@/pages/editprofile';
 import SearchPage from '@/pages/search';
 import SchedulePage from '@/pages/schedule';
+import FeedPage from '@/pages/feed';
+
 
 export default function AppRouter() {
   return (
@@ -16,7 +18,7 @@ export default function AppRouter() {
           <Route path='/' element={<Home />} />
         </Route>
         <Route path='/calendar' element={<CalendarPage />} />
-        <Route path='/feed' element={<Home />} />
+        <Route path='/feed' element={<FeedPage />} />
         <Route path='/search' element={<SearchPage />} />
         <Route path='/my' element={<MyPage />} />
         <Route path='/alarm' element={<Home />} />
