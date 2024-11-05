@@ -7,6 +7,7 @@ import MyPage from '@/pages/mypage';
 import EditProfilePage from '@/pages/editprofile';
 import SearchPage from '@/pages/search';
 import SchedulePage from '@/pages/schedule';
+import FeedDetailPage from '@/pages/feeddetail';
 
 export default function AppRouter() {
   return (
@@ -21,7 +22,7 @@ export default function AppRouter() {
         <Route path='/my' element={<MyPage />} />
         <Route path='/alarm' element={<Home />} />
         <Route path='/schedule' element={<SchedulePage />} />
-        <Route path='/feeddetail/:id' element={<Home />} />
+        <Route path='/feeddetail/:id' element={<FeedDetailPage />} />
         <Route path='/edit-profile' element={<EditProfilePage />} />
       </Routes>
     </BrowserRouter>
