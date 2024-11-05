@@ -1,7 +1,7 @@
 import React from 'react';
 import SignupForm from '../components/SignupForm';
 import { useNavigate } from 'react-router-dom';
-import { postRegister } from '../api/authAPI';  // Import the postRegister function
+import { postRegister } from '../api/authAPI';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const SignupPage = () => {
     try {
       // Call postRegister with email, password, and name from the form
       await postRegister(data.email, data.password, data.name);
-      navigate('/congratulations');  // Redirect to the congratulations page on success
+      navigate('/login');  // Redirect to the login page on success
     } catch (error) {
       console.error("Signup failed:", error);
       alert("An error occurred during signup. Please try again.");  // Show error message on failure
