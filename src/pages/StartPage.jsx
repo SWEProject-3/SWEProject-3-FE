@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import placeholderImage from '@/assets/skku.jpg';
 
 const StartPage = () => {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ const StartPage = () => {
   return (
     <div className="container">
       <h1>로그인</h1>
-      <img src="placeholder_image.png" alt="Illustration" className="landing-image" /> {/* Replace with actual image if available */}
+      <img src={placeholderImage} alt="Illustration" className="landing-image" /> {/* Replace with actual image if available */}
       
       <button
         className="email-register-button"
