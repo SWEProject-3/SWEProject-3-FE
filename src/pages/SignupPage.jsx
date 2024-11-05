@@ -1,7 +1,7 @@
 import React from 'react';
-import SignupForm from '../components/SignupForm';
+import SignupForm from '@SignupForm/components/SignupForm';
 import { useNavigate } from 'react-router-dom';
-import { postRegister } from '../api/authAPI';
+import { postRegister } from '@authAPI/api/authAPI';
 
 const SignupPage = () => {
   const navigate = useNavigate();
