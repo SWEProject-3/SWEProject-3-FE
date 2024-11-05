@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = ({ onSubmit }) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const navigate = useNavigate();
   const password = watch("password");
 
   const togglePasswordVisibility = () => setPasswordShown(!passwordShown);
 
+  const handleFormSubmit = (data) => {
+    onSubmit(data);
+    navigate('/login'); // Redirect to login page after successful signup
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
       <label>성함</label>
       <input
         type="text"
@@ -44,7 +51,7 @@ const SignupForm = ({ onSubmit }) => {
           {...register("password", {
             required: "비밀번호를 입력해주세요.",
             pattern: {
-              value: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/,
+              value: /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,}$/,
               message: "비밀번호는 대문자, 특수문자 및 숫자를 포함해야 합니다."
             }
           })}
