@@ -52,13 +52,13 @@ function Home() {
           <img src={image} alt='carousel' className={styles.carouselImg} />
           <img
             src={leftArrowIcon}
-            alt='left'
+            alt='leftarrow'
             className={styles.leftArrow}
             onClick={handleOnclickLeft}
           />
           <img
             src={rightArrowIcon}
-            alt='right'
+            alt='rightarrow'
             className={styles.rightArrow}
             onClick={handleOnclickRight}
           />
