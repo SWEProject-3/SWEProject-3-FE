@@ -6,7 +6,7 @@ import arrowIcon from '@/assets/editprofile/arrow.svg';
 import deletionIcon from '@/assets/editprofile/deletion.svg';
 import styles from './editprofile.module.css';
 
-function EditProfile() {
+function EditProfile({ onOpenChangePWModal }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,23 +28,22 @@ function EditProfile() {
           <div className={styles.profileSection}>
             <div className={styles.imageContainer}>
               <img src={user.profileImage} alt='Profile' />
+              {/* 프로필 edit
               <button className={styles.editButton}>
                 <img src={editIcon} />
               </button>
+              */}
             </div>
             <h2 className={styles.userName}>{user.name}</h2>
             <p className={styles.userEmail}>{user.email}</p>
           </div>
 
           <div className={styles.menuList}>
-            <a
-              onClick={() => navigate('/reset-password')}
-              className={styles.menuItem}
-            >
+            <a className={styles.menuItem} onClick={onOpenChangePWModal}>
               <span>비밀번호 재설정</span>
               <img src={arrowIcon} alt='Arrow' />
             </a>
-            <a onClick={() => navigate('/log-out')} className={styles.menuItem}>
+            <a className={styles.menuItem}>
               <span>로그아웃</span>
               <img src={arrowIcon} alt='Arrow' />
             </a>
