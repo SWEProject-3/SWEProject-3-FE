@@ -95,8 +95,9 @@ function ChangePWModal({ onClose }) {
             <button
               type='submit'
               className={`${styles.btn} ${styles.primaryBtn}`}
+              disabled={isLoading}
             >
-              비밀번호 변경
+              {isLoading ? '변경 중...' : '비밀번호 변경'}
             </button>
           </div>
         </form>

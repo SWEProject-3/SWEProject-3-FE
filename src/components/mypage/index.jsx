@@ -13,6 +13,7 @@ function MyPage() {
     name: '김성균',
     email: 'skku@example.com',
     profileImage: exampleProfile,
+    password: '1234',
   };
 
   // example schedules
