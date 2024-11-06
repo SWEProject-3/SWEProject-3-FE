@@ -8,6 +8,7 @@ import { getCalendar, getCalendarDetail } from '@/api/calendar';
 import styles from './page.module.css';
 import { postLogin, postRegister, putPassword } from '@/api/authAPI';
 import useYearMonthStore from '@/store/yearMonthStore';
+import useInfoModalStore from '@/store/infoModalStore';
 
 function Home() {
   const { handleSubmit, register, getValues } = useForm();
@@ -19,7 +20,6 @@ function Home() {
   const [calendarId, setCalendarId] = useState(null);
   const year = useYearMonthStore((state) => state.year);
   const month = useYearMonthStore((state) => state.month);
-
   useEffect(() => {
     // const login = async () => {
     //   try {
