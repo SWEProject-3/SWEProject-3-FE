@@ -3,7 +3,7 @@ import styles from './page.module.css';
 import PageLayout from '@/components/pagelayout';
 import leftArrowIcon from '@/assets/feeddetail/leftarrow.svg';
 import rightArrowIcon from '@/assets/feeddetail/rightarrow.svg';
-
+import shareIcon from '@/assets/feeddetail/share.svg';
 const images = [
   {
     imageFile:
@@ -63,6 +63,7 @@ function Home() {
             onClick={handleOnclickRight}
           />
         </div>
+        <div className={styles.contentWrapper}></div>
       </div>
     </PageLayout>
   );
