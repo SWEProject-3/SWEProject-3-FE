@@ -42,5 +42,11 @@
 }
 
 .text {
+  color: var(--black-333, #333);
+  font-family: Pretendard;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 3.06rem; /* 170% */
   cursor: pointer;
 }

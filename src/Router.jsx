@@ -8,14 +8,18 @@ import EditProfilePage from '@/pages/editprofile';
 import SearchPage from '@/pages/search';
 import SchedulePage from '@/pages/schedule';
 import FeedDetailPage from '@/pages/feeddetail';
+import Signin from '@/pages/auth/signin';
+import Signup from '@/pages/auth/signup';
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<SplashRouter />}>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Signin />} />
         </Route>
+        <Route path='/signin' element={<Signin />} />
+        <Route path='/signup' element={<Signup />} />
         <Route path='/calendar' element={<CalendarPage />} />
         <Route path='/feed' element={<Home />} />
         <Route path='/search' element={<SearchPage />} />
