@@ -4,7 +4,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
+
 :root {
   --color-main: #5849ff;
   --color-white: #ffffff;
@@ -36,4 +38,126 @@ a {
 button {
   cursor: pointer;
   border: none;
+}
+
+/* Additional Styles */
+.App {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--color-white);
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.congrats-icon {
+  width: 100px;
+  height: auto;
+  margin: 20px auto;
+}
+
+p {
+  font-size: 16px;
+  color: var(--color-gray-semi);
+  margin-bottom: 20px;
+}
+
+.email-register-button, .login-button, .submit-button {
+  background-color: #6200ea;
+  color: var(--color-white);
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.naver-button, .google-button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.naver-button {
+  background-color: var(--color-green);
+  color: var(--color-white);
+  font-weight: bold;
+}
+
+.google-button {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-weight: bold;
+  border: 1px solid #ddd;
+}
+
+.footer-links {
+  font-size: 14px;
+  color: #888;
+  margin-top: 20px;
+}
+
+.footer-links span {
+  cursor: pointer;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.pass-wrapper {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--color-gray-semi);
+}
+
+.back-button {
+  background-color: #ddd;
+  color: var(--color-black);
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+input.invalid {
+  border: 1px solid var(--color-caution);
+}
+
+.error {
+  color: var(--color-caution);
+  font-size: 14px;
 }
