@@ -7,16 +7,16 @@ export const handleKakaoShare = (title, description, image, link) => {
         description: description,
         imageUrl: image,
         link: {
-          mobileWebUrl: 'https://www.naver.com/',
-          webUrl: 'https://www.naver.com/',
+          mobileWebUrl: link,
+          webUrl: link,
         },
       },
       buttons: [
         {
           title: '웹으로 보기',
           link: {
-            webUrl: 'https://www.naver.com/',
-            mobileWebUrl: 'https://www.naver.com/',
+            webUrl: link,
+            mobileWebUrl: link,
           },
         },
       ],
