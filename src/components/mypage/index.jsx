@@ -25,6 +25,13 @@ function MyPage() {
     { id: 5, time: '24:00', title: '소공개 과제 제출 마감' },
   ];
 
+  // example department
+  const departments = [
+    { id: 1, name: '소프트웨어학과' },
+    { id: 2, name: '수학과' },
+    { id: 2, name: '화학공학과' },
+  ];
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -56,6 +63,17 @@ function MyPage() {
             <li className={styles.scheduleItem} key={schedule.id}>
               <span className={styles.scheduleTime}>{schedule.time}</span>
               <span className={styles.scheduleTitle}>{schedule.title}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className={styles.card}>
+        <h2 className={styles.cardTitle}>구독한 학과 목록</h2>
+        <ul className={styles.departmentList}>
+          {departments.map((department) => (
+            <li className={styles.departmentItem} key={department.id}>
+              <span className={styles.scheduleTitle}>{department.name}</span>
             </li>
           ))}
         </ul>
