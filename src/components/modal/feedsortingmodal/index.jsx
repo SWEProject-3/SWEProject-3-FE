@@ -2,22 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './feedsortingmodal.module.css';
 
 function FeedSortingModal({ onClose }) {
-
-  const sortingTypes = ['최신순', '오래된 순', '즐겨찾기 순'];
+  const sortingTypes = ['최신순', '오래된 순', '인기 순'];
   const [activeSorting, setActiveSorting] = useState(sortingTypes[0]);
 
   const modalRef = useRef(null);
 
   useEffect(() => {
-        function handleClickOutside(event) {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
-                onClose(); // 모달 닫기 함수 호출
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+    function handleClickOutside(event) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose(); // 모달 닫기 함수 호출
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [onClose]);
 
   return (
@@ -27,14 +26,14 @@ function FeedSortingModal({ onClose }) {
       </div>
       <div className={styles.inputWrapper}>
         {sortingTypes.map((type) => (
-            <div
-                key={type}
-                onClick={() => setActiveSorting(type)}
-                className={`${styles.sortingTypeWrapper} ${activeSorting === type ? styles.active : ''}`}
-            >
-                {type}
-            </div>
-            ))}
+          <div
+            key={type}
+            onClick={() => setActiveSorting(type)}
+            className={`${styles.sortingTypeWrapper} ${activeSorting === type ? styles.active : ''}`}
+          >
+            {type}
+          </div>
+        ))}
       </div>
     </div>
   );
