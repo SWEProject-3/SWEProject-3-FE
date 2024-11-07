@@ -10,6 +10,7 @@ import SchedulePage from '@/pages/schedule';
 import FeedDetailPage from '@/pages/feeddetail';
 import Signin from '@/pages/auth/signin';
 import Signup from '@/pages/auth/signup';
+import FeedPage from '@/pages/feed';
 
 export default function AppRouter() {
   return (
@@ -21,7 +22,7 @@ export default function AppRouter() {
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/calendar' element={<CalendarPage />} />
-        <Route path='/feed' element={<Home />} />
+        <Route path='/feed' element={<FeedPage />} />
         <Route path='/search' element={<SearchPage />} />
         <Route path='/my' element={<MyPage />} />
         <Route path='/alarm' element={<Home />} />
