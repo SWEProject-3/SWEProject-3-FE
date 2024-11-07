@@ -12,9 +12,9 @@ function Header() {
   return (
     <header className={styles.header}>
       <div>
-        <h1 onClick={() => navigate('/')} className={styles.text}>
-          SKKUdular
-        </h1>
+        <span onClick={() => navigate('/calendar')} className={styles.text}>
+          Skkuduler
+        </span>
       </div>
       <div className={styles['menu-container']}>
         <div onClick={() => navigate('/search')} className={styles.menu}>

@@ -2,6 +2,7 @@ import styles from './infomodal.module.css';
 import infoModalStore from '@/store/infoModalStore';
 import closeIcon from '@/assets/modal/close.svg';
 import example from '@/assets/example1.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const mockData = [
   {
@@ -52,11 +53,17 @@ const mockData = [
 ];
 
 function InfoModal({ date, data = mockData }) {
+  const navigate = useNavigate();
   const closeModal = infoModalStore((state) => state.closeInfoModal);
 
   const formatDate = (date) => {
     const options = { month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('ko-KR', options);
+    return date?.toLocaleDateString('ko-KR', options);
+  };
+
+  const handleClickEvent = (id) => {
+    navigate(`/feeddetail/${id}`);
+    closeModal();
   };
 
   return (
@@ -74,7 +81,10 @@ function InfoModal({ date, data = mockData }) {
             {/* <div className={styles.eventImgWrapper}>
               <img src={info.img} className={styles.eventImg} alt='event' />
             </div> */}
-            <div className={styles.infoWrapper}>
+            <div
+              className={styles.infoWrapper}
+              onClick={() => handleClickEvent(i)}
+            >
               <div className={styles.title}>{info.title}</div>
               <div className={styles.description}>{info.description}</div>
             </div>
