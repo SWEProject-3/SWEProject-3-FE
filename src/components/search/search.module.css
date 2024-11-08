@@ -138,7 +138,7 @@
 }
 
 .noticeItem {
-  padding: 3rem 2rem;
+  padding: 2.5rem 2rem;
   margin: 1rem 0rem;
   border-radius: 30px;
   border: 2px solid var(--color-gray-light);
@@ -181,7 +181,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .noticeItemTitle {
@@ -194,6 +194,7 @@
 .noticeItemDate {
   font-size: 1rem;
   color: #888;
+  margin: 0;
 }
 
 .noticeItemStats {
@@ -207,6 +208,7 @@
   color: #555;
   display: flex;
   align-items: center;
+  margin: 0;
 }
 
 .comments {
@@ -214,6 +216,7 @@
   color: #555;
   display: flex;
   align-items: center;
+  margin: 0;
 }
 
 .likes::before,
