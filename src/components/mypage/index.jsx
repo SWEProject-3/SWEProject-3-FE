@@ -29,7 +29,7 @@ function MyPage() {
   const departments = [
     { id: 1, name: '소프트웨어학과' },
     { id: 2, name: '수학과' },
-    { id: 2, name: '화학공학과' },
+    { id: 3, name: '화학공학과' },
   ];
 
   return (

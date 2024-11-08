@@ -53,17 +53,17 @@ function EditProfile() {
           </div>
 
           <div className={styles.menuList}>
-            <a
+            <div
               className={styles.menuItem}
               onClick={() => openModal('changePW')}
             >
               <span>비밀번호 재설정</span>
               <img src={arrowIcon} alt='Arrow' />
-            </a>
-            <a className={styles.menuItem}>
+            </div>
+            <div className={styles.menuItem}>
               <span>로그아웃</span>
               <img src={arrowIcon} alt='Arrow' />
-            </a>
+            </div>
           </div>
         </div>
 
