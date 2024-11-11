@@ -28,21 +28,21 @@ function SearchComponent() {
   ];
   const recentNotices = [
     {
-      title: '최근 본 공지1',
+      title: '최근 본 일정1',
       date: '2024-10-23',
       photo: sampleimage,
       likes: 50,
       comments: 10,
     },
     {
-      title: '최근 본 공지2',
+      title: '최근 본 일정2',
       date: '2024-10-24',
       photo: sampleimage,
       likes: 75,
       comments: 22,
     },
     {
-      title: '최근 본 공지3',
+      title: '최근 본 일정3',
       date: '2024-10-26',
       photo: sampleimage,
       likes: 12,
@@ -98,7 +98,11 @@ function SearchComponent() {
   const searchimg = isSearchClicked ? clicksearchIcon : searchIcon;
 
   useEffect(() => {
-    setRecentSearchTerm(savedTerm);
+    if (savedTerm.length > 0) {
+      setRecentSearchTerm(savedTerm);
+    } else {
+      setRecentSearchTerm(recentSearches); // 기본 더미 데이터를 설정
+    }
   }, []);
 
   return (
@@ -150,7 +154,7 @@ function SearchComponent() {
 
       {/* 최근 본 공지 */}
       <div className={styles.recentNoticeContainer}>
-        <h3 className={styles.recentNoticeTitle}>최근 본 공지</h3>
+        <h3 className={styles.recentNoticeTitle}>최근 본 일정</h3>
         <ul className={styles.recentNoticeList}>
           {recentNotices.map((noticeItem, index) => (
             <li key={index} className={styles.noticeItem}>
