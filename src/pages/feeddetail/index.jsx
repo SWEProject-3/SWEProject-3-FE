@@ -7,6 +7,8 @@ import shareIcon from '@/assets/feeddetail/share.svg';
 import kakaoIcon from '@/assets/feeddetail/kakao.svg';
 import linkIcon from '@/assets/feeddetail/link.svg';
 import { handleKakaoShare } from '@/utils/kakaoshare';
+import kebabIcon from '@/assets/feeddetail/kebab.svg';
+
 const images = [
   {
     imageFile:
@@ -71,6 +73,8 @@ const ShareModal = ({ onClick, title, description, image }) => {
 function Home() {
   const [image, setImage] = useState(images[0].imageFile);
   const [isShareBtnClicked, setIsShareBtnClicked] = useState(false);
+  const [isKebabClicked, setIsKebabClicked] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const handleOnclickRight = () => {
     const currentOrder = images.findIndex((img) => img.imageFile === image);
     if (currentOrder === images.length - 1) {
@@ -132,8 +136,60 @@ function Home() {
           <div className={styles.content}>
             <span className={styles.contentTitle}>설명</span>
             <span className={styles.txt}>
-              이 이벤트는
-              어쩌구저쩌구..................................ㄴㄻㅈㄷㄹㅈ댜ㅕㅗㄹㅈ대ㅗㄹ잰도ㅑㅈ도ㅕㅑㅁㄷ노쟈ㅕㅗㅁㄷ쟈ㅗㄹㅈ댜ㅗㄹㄷ쟈
+              이 행사에 대해서 설명 드리면
+              <br />
+              이 행사는 2024년 11/01 ~ 11/30일까지 진행됩니다.
+              <br />
+              서울에서 진행됩니다.
+            </span>
+          </div>
+        </div>
+        <div className={styles.commentWrapper}>
+          <div className={styles.commentTitle}>
+            <span>댓글</span>
+            <span className={styles.commentCnt}>3</span>
+          </div>
+          <div className={styles.commentContent}>
+            <div className={styles.commentHeader}>
+              <div className={styles.commentUser}>
+                <span className={styles.commentName}>홍길동</span>
+                <span className={styles.commentDate}>2024.07.01</span>
+              </div>
+              <img
+                src={kebabIcon}
+                alt='kebab'
+                className={styles.kebabIcon}
+                onClick={() => setIsKebabClicked(!isKebabClicked)}
+              />
+              {isKebabClicked && (
+                <div className={styles.editmodal}>
+                  <div
+                    className={styles.modalcontent}
+                    onClick={() => setIsEditMode(true)}
+                  >
+                    수정
+                  </div>
+                  <div className={styles.bar} />
+                  <div className={styles.modalcontent}>삭제</div>
+                </div>
+              )}
+            </div>
+            <span className={styles.comment}>
+              광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식
+              광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식
+            </span>
+          </div>
+          <div className={styles.commentContent}>
+            <div className={styles.commentHeader}>
+              <div className={styles.commentUser}>
+                <span className={styles.commentName}>홍길동</span>
+                <span className={styles.commentDate}>2024.07.01</span>
+              </div>
+              <img src={kebabIcon} alt='kebab' className={styles.kebabIcon} />
+            </div>
+            <span className={styles.comment}>
+              광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식
+              광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식광식
             </span>
           </div>
         </div>

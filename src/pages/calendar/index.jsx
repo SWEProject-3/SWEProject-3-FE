@@ -3,10 +3,8 @@ import { useForm } from 'react-hook-form';
 import PageLayout from '@/components/pagelayout';
 import CustomCalendar from '@/components/calendar';
 import { getDepartments } from '@/api/department';
-import { getCalendar, getCalendarDetail } from '@/api/calendar';
 
 import styles from './page.module.css';
-import { postLogin, postRegister, putPassword } from '@/api/authAPI';
 import useYearMonthStore from '@/store/yearMonthStore';
 import useInfoModalStore from '@/store/infoModalStore';
 
@@ -21,17 +19,6 @@ function Home() {
   const year = useYearMonthStore((state) => state.year);
   const month = useYearMonthStore((state) => state.month);
   useEffect(() => {
-    // const login = async () => {
-    //   try {
-    //     const res = await postLogin('joeplay0801@naver.com', 'abcd1234!');
-    //     console.log(res.data);
-    //     localStorage.setItem('token', res.data.data);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-    // login();
-
     const getDepartmentList = async () => {
       const res = await getDepartments();
       setDepartments(res.data.data.content);
@@ -56,22 +43,6 @@ function Home() {
     }
   }, [searchText, departments, departmentId]);
 
-  useEffect(() => {
-    const fetchCalendarDetail = async (calendarId) => {
-      const res = await getCalendarDetail(
-        calendarId,
-        null,
-        null,
-        null,
-        `${year}-${month}`
-      );
-      console.log(res.data.data);
-    };
-    if (calendarId) {
-      fetchCalendarDetail(calendarId); // fetchCalendarDetail로 호출
-    }
-  }, [calendarId]);
-
   const handleClickMajor = (departmentName, departmentId) => {
     setSelectedMajor(departmentName);
     setDepartmentId(departmentId);
@@ -92,7 +63,7 @@ function Home() {
           <div className={styles.sliderWrapper}>
             <span className={styles.sliderTitle}>{selectedMajor} 학사일정</span>
           </div>
-          <CustomCalendar usage='home' />
+          <CustomCalendar id={departmentId} usage='calendar' />
           <div className={styles.searchWrapper}>
             <span className={styles.searchTitle}>학과 검색</span>
             <form

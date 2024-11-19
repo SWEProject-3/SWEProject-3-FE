@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Calendar from 'react-calendar';
 import useinfoModalStore from '@/store/infoModalStore';
@@ -8,6 +8,7 @@ import './calendarcustom.css';
 import styles from './calendar.module.css';
 import InfoModal from '../modal/infomodal';
 import kebabIcon from '@/assets/calendar/kebab.svg';
+import { getDepartmentCalendar } from './../../api/calendar';
 
 const mockData = [
   {
@@ -84,20 +85,37 @@ const mockData = [
   },
 ];
 
-function CustomCalendar({ usage, data }) {
+function CustomCalendar({ id, usage }) {
   const [eventData, setEventData] = useState(mockData);
   const [selectedDate, setSelectedDate] = useState();
   const openModal = useinfoModalStore((state) => state.openInfoModal);
   const isOpen = useinfoModalStore((state) => state.isInfoModalOpen);
   const setYearMonth = useYearMonthStore((state) => state.setYearMonth);
+  const { year, month } = useYearMonthStore();
   const handleClickCalendar = (date) => {
     setSelectedDate(date);
     openModal();
   };
+  console.log(year, month);
 
   const handleActiveStartDateChange = ({ activeStartDate }) => {
     setYearMonth(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1);
   };
+
+  useEffect(() => {
+    if (usage === 'calendar') {
+      const getDepartmentCalendarData = async () => {
+        const res = await getDepartmentCalendar(
+          id,
+          false,
+          null,
+          null,
+          `${year}-${month}`
+        );
+        setEventData(res.data.data);
+      };
+    }
+  }, [id, usage]);
 
   const tileContent = ({ date, view }) => {
     if (view === 'month') {

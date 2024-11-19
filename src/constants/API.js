@@ -13,7 +13,7 @@ export const API_DEPARTMENT = Object.freeze({
 });
 
 export const API_CALENDER = Object.freeze({
-  CALENDAR: '/calenders',
-  CALENDAR_CHANGE: (calendarId) => `/calenders/${calendarId}`,
-  CALENDAR_DETAIL: (calendarId) => `/calenders/${calendarId}/events`,
+  DEPARTMENTCALENDAR: (departmentId) =>
+    `departments/${departmentId}/calendars/events`,
+  USERCALENDAR: (userId) => `users/${userId}/calendars/events`,
 });
