@@ -17,3 +17,9 @@ export const API_CALENDER = Object.freeze({
   CALENDAR_CHANGE: (calendarId) => `/calenders/${calendarId}`,
   CALENDAR_DETAIL: (calendarId) => `/calenders/${calendarId}/events`,
 });
+
+export const API_USER = Object.freeze({
+  WITHDRAW: '/users/withdraw',
+  PROFILE: (userId) => `/users/${userId}/profiles`,
+  EDIT_NAME: `/users/profiles`,
+});

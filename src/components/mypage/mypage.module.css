@@ -41,6 +41,8 @@
 }
 
 .userName {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;
 }
@@ -48,6 +50,7 @@
 .userEmail {
   font-size: 1.2rem;
   color: #666;
+  margin-bottom: 1rem;
 }
 
 .editButton {
@@ -103,6 +106,51 @@
   border-bottom: none;
 }
 
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  font-size: 1.2rem;
+  text-align: center;
+  width: 100%;
+  background-color: white;
+}
+
+.loading {
+  color: #3498db;
+}
+
+.loading::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  border: 2px solid #3498db;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.error::before {
+  content: '⚠️';
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
 @media screen and (max-width: 767px) {
   .container,
   .card {

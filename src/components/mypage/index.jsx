@@ -1,19 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './mypage.module.css';
 import exampleProfile from '@/assets/mypage/exampleprofile.svg';
+import { getProfile } from '@/api/userAPI';
 
 function MyPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [profileData, setProfileData] = useState(null);
 
-  // user data load
-  const user = {
-    name: '김성균',
-    email: 'skku@example.com',
-    profileImage: exampleProfile,
-    password: '1234',
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        setError('로그인이 필요합니다');
+        return;
+      }
+      try {
+        setLoading(true);
+        const response = await getProfile(userId);
+        setProfileData(response.data.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  if (loading) return <div className={styles.loading}>로딩 중...</div>;
+  if (error)
+    return <div className={styles.error}>에러 발생: {error.message}</div>;
+  if (!profileData)
+    return (
+      <div className={styles.error}>사용자 정보를 불러올 수 없습니다.</div>
+    );
+
+  const handleEditProfile = () => {
+    navigate('/edit-profile', {
+      state: {
+        name: profileData.name,
+        email: profileData.email,
+      },
+    });
   };
 
   // example schedules
@@ -39,19 +74,16 @@ function MyPage() {
         <div className={styles.profileContent}>
           <img
             className={styles.profileImage}
-            src={user.profileImage}
+            src={exampleProfile}
             alt='Profile'
           />
           <div className={styles.profileInfo}>
-            <h3 className={styles.userName}>{user.name}</h3>
-            <p className={styles.userEmail}>{user.email}</p>
+            <h3 className={styles.userName}>{profileData.name}</h3>
+            <p className={styles.userEmail}>{profileData.email}</p>
           </div>
         </div>
 
-        <button
-          className={styles.editButton}
-          onClick={() => navigate('/edit-profile', { state: { user } })}
-        >
+        <button className={styles.editButton} onClick={handleEditProfile}>
           프로필 수정
         </button>
       </div>

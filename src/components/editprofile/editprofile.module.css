@@ -57,6 +57,18 @@
   margin-bottom: 1rem;
 }
 
+.nameContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
 .profileImage {
   border-radius: 50%;
   border: 2px solid #ffffff;
