@@ -1,29 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './mypage.module.css';
 import exampleProfile from '@/assets/mypage/exampleprofile.svg';
 import { getProfile } from '@/api/userAPI';
+import { getUserEvents } from '@/api/calendar';
+import { getSubscribedDepartments } from '@/api/department';
 
 function MyPage() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [profileData, setProfileData] = useState(null);
+  const [schedules, setSchedules] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchData = async () => {
       const userId = localStorage.getItem('userId');
 
       if (!userId) {
         setError('로그인이 필요합니다');
+        setLoading(false);
         return;
       }
+
       try {
         setLoading(true);
-        const response = await getProfile(userId);
-        setProfileData(response.data.data);
+        const [profileResponse, scheduleResponse, departmentsResponse] =
+          await Promise.all([
+            getProfile(userId),
+            getUserEvents(
+              userId,
+              true,
+              new Date().toISOString().split('T')[0],
+              new Date().toISOString().split('T')[0],
+              null
+            ),
+            getSubscribedDepartments(null, null, userId),
+          ]);
+
+        setProfileData(profileResponse.data.data);
+
+        const formattedSchedules = scheduleResponse.data.data.map((event) => ({
+          id: event.eventId,
+          time:
+            event.startDateTime.substring(11, 16) === '00:00'
+              ? '하루종일'
+              : event.startDateTime.substring(11, 16),
+          title: event.title,
+          colorCode: event.colorCode,
+        }));
+
+        setSchedules(formattedSchedules);
+        setDepartments(departmentsResponse.data.data.content);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -31,12 +60,11 @@ function MyPage() {
       }
     };
 
-    fetchProfile();
+    fetchData();
   }, []);
 
   if (loading) return <div className={styles.loading}>로딩 중...</div>;
-  if (error)
-    return <div className={styles.error}>에러 발생: {error.message}</div>;
+  if (error) return <div className={styles.error}>에러 발생: {error}</div>;
   if (!profileData)
     return (
       <div className={styles.error}>사용자 정보를 불러올 수 없습니다.</div>
@@ -50,22 +78,6 @@ function MyPage() {
       },
     });
   };
-
-  // example schedules
-  const schedules = [
-    { id: 1, time: '하루종일', title: '운영체제 중간고사' },
-    { id: 2, time: '하루종일', title: '학생회 행사' },
-    { id: 3, time: '14:00', title: '아르바이트' },
-    { id: 4, time: '18:00', title: '배드민턴' },
-    { id: 5, time: '24:00', title: '소공개 과제 제출 마감' },
-  ];
-
-  // example department
-  const departments = [
-    { id: 1, name: '소프트웨어학과' },
-    { id: 2, name: '수학과' },
-    { id: 3, name: '화학공학과' },
-  ];
 
   return (
     <div className={styles.container}>
@@ -90,27 +102,41 @@ function MyPage() {
 
       <div className={styles.card}>
         <h2 className={styles.cardTitle}>오늘의 일정</h2>
-        <ul className={styles.scheduleList}>
-          {schedules.map((schedule) => (
-            <li className={styles.scheduleItem} key={schedule.id}>
-              <span className={styles.scheduleTime}>{schedule.time}</span>
-              <span className={styles.scheduleTitle}>{schedule.title}</span>
-            </li>
-          ))}
-        </ul>
+        {schedules.length === 0 ? (
+          <div className={styles.emptyMessage}>오늘 일정이 없습니다.</div>
+        ) : (
+          <ul className={styles.scheduleList}>
+            {schedules.map((schedule) => (
+              <li className={styles.scheduleItem} key={schedule.id}>
+                <span className={styles.scheduleTime}>{schedule.time}</span>
+                <span className={styles.scheduleTitle}>{schedule.title}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className={styles.card}>
         <h2 className={styles.cardTitle}>구독한 학과 목록</h2>
-        <ul className={styles.departmentList}>
-          {departments.map((department) => (
-            <li className={styles.departmentItem} key={department.id}>
-              <span className={styles.scheduleTitle}>{department.name}</span>
-            </li>
-          ))}
-        </ul>
+        {departments.length === 0 ? (
+          <div className={styles.emptyMessage}>구독한 학과가 없습니다.</div>
+        ) : (
+          <ul className={styles.departmentList}>
+            {departments.map((department) => (
+              <li
+                className={styles.departmentItem}
+                key={department.departmentId}
+              >
+                <span className={styles.scheduleTitle}>
+                  {department.departmentName}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
 }
+
 export default MyPage;

@@ -12,7 +12,7 @@
   background: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
-  padding: 2rem;
+  padding: 1.8rem;
   width: 90%;
   max-width: 48rem;
   margin: 0 auto;
@@ -68,6 +68,17 @@
   background-color: #2563eb;
 }
 
+.emptyMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  font-size: 1.2rem;
+  color: #666;
+  background-color: white;
+  font-style: italic;
+}
+
 .scheduleList {
   list-style-type: none;
   padding: 0;
@@ -78,7 +89,7 @@
   justify-content: space-between;
   padding: 0.75rem 0;
   border-bottom: 1px solid #e5e7eb;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .scheduleItem:last-child {
@@ -86,7 +97,7 @@
 }
 
 .scheduleTime {
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 .departmentList {
