@@ -87,9 +87,10 @@
 .scheduleItem {
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid #e5e7eb;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .scheduleItem:last-child {
@@ -98,6 +99,14 @@
 
 .scheduleTime {
   font-weight: bolder;
+  flex-shrink: 0;
+  min-width: 4rem;
+}
+
+.scheduleTitle {
+  flex: 1;
+  word-break: break-all;
+  white-space: normal; /* 줄바꿈 방지 */
 }
 
 .departmentList {
