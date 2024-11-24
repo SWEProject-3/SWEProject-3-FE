@@ -26,8 +26,10 @@ export default function ChangeNameModal({ onClose, onConfirm }) {
       console.error('이름 변경 실패:', error);
       if (error.response) {
         // 서버가 응답을 반환한 경우
-        if (error.response.status === 403) {
-          setError('로그인이 만료되었습니다. 다시 로그인해주세요.');
+        if (error.response.status === 400) {
+          setError('입력필드가 올바르지 않습니다.');
+        } else if (error.response.status === 404) {
+          setError('해당 유저를 찾을 수 없습니다.');
         } else {
           setError(
             `이름 변경 실패: ${error.response.data.message || '알 수 없는 오류가 발생했습니다.'}`
