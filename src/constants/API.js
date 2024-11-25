@@ -20,6 +20,10 @@ export const API_CALENDER = Object.freeze({
   USERCALENDAR: (userId) => `/users/${userId}/calendars/events`,
   EVENT: (eventId) => `/users/calendars/events/${eventId}`,
   USERPOST: '/users/calendars/events',
+  CALENDAR: '/calenders',
+  CALENDAR_CHANGE: (calendarId) => `/calenders/${calendarId}`,
+  CALENDAR_DETAIL: (calendarId) => `/calenders/${calendarId}/events`,
+  USER_EVENTS: (userId) => `/users/${userId}/calendars/events`,
 });
 
 export const API_COMMENT = Object.freeze({

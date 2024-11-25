@@ -127,9 +127,7 @@ function MyPage() {
                 className={styles.departmentItem}
                 key={department.departmentId}
               >
-                <span className={styles.scheduleTitle}>
-                  {department.departmentName}
-                </span>
+                <span className={styles.scheduleTitle}>{department.name}</span>
               </li>
             ))}
           </ul>
