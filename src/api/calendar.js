@@ -32,3 +32,23 @@ export const getCalendarDetail = (
     params,
   });
 };
+
+//사용자 일정 조회
+export const getUserEvents = (
+  userId,
+  rangeSearch,
+  startDate,
+  endDate,
+  yearMonth
+) => {
+  const params = {};
+  if (rangeSearch) params.rangeSearch = rangeSearch;
+  if (startDate) params.startDate = startDate;
+  if (endDate) params.endDate = endDate;
+  if (yearMonth) params.yearMonth = yearMonth;
+  return instance({
+    url: API_CALENDER.USER_EVENTS(userId),
+    method: 'GET',
+    params,
+  });
+};

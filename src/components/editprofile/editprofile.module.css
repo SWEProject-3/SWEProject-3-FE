@@ -24,6 +24,7 @@
   font-weight: 600;
   font-size: 1.8rem;
   margin-left: 1rem;
+  margin-bottom: 0;
 }
 
 .main {
@@ -54,6 +55,18 @@
 .imageContainer {
   position: relative;
   margin-bottom: 1rem;
+}
+
+.nameContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
 }
 
 .profileImage {

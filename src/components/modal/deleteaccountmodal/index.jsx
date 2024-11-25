@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './DeleteAccountModal.module.css';
+import { deleteUser } from '@/api/userAPI';
 
 function DeleteAccountModal({ onClose, onConfirm }) {
   const [password, setPassword] = useState('');
@@ -17,14 +18,12 @@ function DeleteAccountModal({ onClose, onConfirm }) {
     setIsLoading(true);
 
     try {
-      // TODO: 실제 API 호출
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // 임시 지연
-
-      if (password === 'correctpassword') {
-        // 임시 비밀번호 확인 로직
+      const response = await deleteUser(password);
+      if (response.status === 200) {
         onConfirm();
-      } else {
-        setError('비밀번호가 일치하지 않습니다.');
+        alert('회원 탈퇴 되었습니다.');
+      } else if (response.status === 404) {
+        setError('해당 유저를 찾을 수 없습니다. 다시 시도해 주세요.');
       }
     } catch (error) {
       setError('회원 탈퇴 처리 중 오류가 발생했습니다. 다시 시도해 주세요.');
