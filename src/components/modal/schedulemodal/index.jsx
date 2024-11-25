@@ -28,7 +28,6 @@ function ScheduleModal({ onClose }) {
       endDateTime: `${enddate} ${endTime}`,
       imageFile: photo && photo.length > 0 ? photo[0] : null,
     };
-    console.log(photo);
     const postMySchedule = async () => {
       try {
         await postUserCalendar(transformedData);

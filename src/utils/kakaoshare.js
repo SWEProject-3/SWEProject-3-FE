@@ -1,5 +1,4 @@
 export const handleKakaoShare = (title, description, image, url) => {
-  console.log(url);
   if (window.Kakao) {
     window.Kakao.Link.sendDefault({
       objectType: 'feed',
