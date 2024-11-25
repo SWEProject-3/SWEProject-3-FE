@@ -110,9 +110,9 @@ function Home() {
     await getFriendRequestList();
   };
 
-  // const naviageToFriendList = (friendId,friendName) => {
-  //   navigate(`.?friendId=${friendId}&friendName=${friendName}`);
-  // };
+  const navigateToFriendList = (friendId, friendName) => {
+    navigate(`/sharecalendar/${friendId}/${friendName}`);
+  };
 
   return (
     <>
@@ -150,7 +150,9 @@ function Home() {
                     className={`${styles.friendItem} ${styles.plusfriend}`}
                     key={i}
                     style={{ cursor: 'pointer' }}
-                    onClick={() => naviageToFriendList(data.friendUserId)}
+                    onClick={() =>
+                      navigateToFriendList(data.friendUserId, data.friendName)
+                    }
                   >
                     {data.friendName}
                     <img

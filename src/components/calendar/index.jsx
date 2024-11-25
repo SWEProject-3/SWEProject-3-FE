@@ -54,6 +54,19 @@ function CustomCalendar({ id, usage }) {
       };
       getUserCalendarData();
     }
+    if (usage === 'share') {
+      const getUserShareCalendarData = async () => {
+        const res = await getUserCalendar(
+          id,
+          false,
+          null,
+          null,
+          `${year}-${month}`
+        );
+        setEventData(res.data.data);
+      };
+      getUserShareCalendarData();
+    }
   }, [id, usage, year, month]);
 
   const tileContent = ({ date, view }) => {
