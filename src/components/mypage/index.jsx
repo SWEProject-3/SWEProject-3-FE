@@ -26,33 +26,37 @@ function MyPage() {
 
       try {
         setLoading(true);
-        const [profileResponse, scheduleResponse, departmentsResponse] =
-          await Promise.all([
-            getProfile(userId),
-            getUserEvents(
-              userId,
-              true,
-              new Date().toISOString().split('T')[0],
-              new Date().toISOString().split('T')[0],
-              null
-            ),
-            getSubscribedDepartments(null, null, userId),
-          ]);
+        if (userId) {
+          const [profileResponse, scheduleResponse, departmentsResponse] =
+            await Promise.all([
+              getProfile(userId),
+              getUserEvents(
+                userId,
+                true,
+                new Date().toISOString().split('T')[0],
+                new Date().toISOString().split('T')[0],
+                null
+              ),
+              getSubscribedDepartments(null, null, userId),
+            ]);
 
-        setProfileData(profileResponse.data.data);
+          setProfileData(profileResponse.data.data);
 
-        const formattedSchedules = scheduleResponse.data.data.map((event) => ({
-          id: event.eventId,
-          time:
-            event.startDateTime.substring(11, 16) === '00:00'
-              ? '하루종일'
-              : event.startDateTime.substring(11, 16),
-          title: event.title,
-          colorCode: event.colorCode,
-        }));
+          const formattedSchedules = scheduleResponse.data.data.map(
+            (event) => ({
+              id: event.eventId,
+              time:
+                event.startDateTime.substring(11, 16) === '00:00'
+                  ? '하루종일'
+                  : event.startDateTime.substring(11, 16),
+              title: event.title,
+              colorCode: event.colorCode,
+            })
+          );
 
-        setSchedules(formattedSchedules);
-        setDepartments(departmentsResponse.data.data.content);
+          setSchedules(formattedSchedules);
+          setDepartments(departmentsResponse.data.data.content);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
