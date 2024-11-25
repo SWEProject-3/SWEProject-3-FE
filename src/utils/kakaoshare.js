@@ -1,4 +1,5 @@
-export const handleKakaoShare = (title, description, image, link) => {
+export const handleKakaoShare = (title, description, image, url) => {
+  console.log(url);
   if (window.Kakao) {
     window.Kakao.Link.sendDefault({
       objectType: 'feed',
@@ -7,16 +8,16 @@ export const handleKakaoShare = (title, description, image, link) => {
         description: description,
         imageUrl: image,
         link: {
-          mobileWebUrl: link,
-          webUrl: link,
+          mobileWebUrl: url,
+          webUrl: url,
         },
       },
       buttons: [
         {
           title: '웹으로 보기',
           link: {
-            webUrl: link,
-            mobileWebUrl: link,
+            webUrl: url,
+            mobileWebUrl: url,
           },
         },
       ],

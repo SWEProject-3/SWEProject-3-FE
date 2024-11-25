@@ -2,11 +2,16 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import PageLayout from '@/components/pagelayout';
 import CustomCalendar from '@/components/calendar';
-import { getDepartments } from '@/api/department';
+import {
+  deleteDepartment,
+  getDepartments,
+  postDepartment,
+} from '@/api/department';
 
 import styles from './page.module.css';
 import useYearMonthStore from '@/store/yearMonthStore';
 import useInfoModalStore from '@/store/infoModalStore';
+import Button from '@/components/button';
 
 function Home() {
   const { handleSubmit, register, getValues } = useForm();
@@ -15,17 +20,18 @@ function Home() {
   const [departments, setDepartments] = useState([]);
   const [filteredDepartments, setFilteredDepartments] = useState(departments);
   const [departmentId, setDepartmentId] = useState(null);
-  const [calendarId, setCalendarId] = useState(null);
   const year = useYearMonthStore((state) => state.year);
   const month = useYearMonthStore((state) => state.month);
+  const getDepartmentList = async () => {
+    const res = await getDepartments();
+    setDepartments(res.data.data.content);
+    setSelectedMajor(res.data.data.content[0].departmentName);
+    setDepartmentId(res.data.data.content[0].departmentId);
+  };
   useEffect(() => {
-    const getDepartmentList = async () => {
-      const res = await getDepartments();
-      setDepartments(res.data.data.content);
-      setSelectedMajor(res.data.data.content[0].departmentName);
-      setDepartmentId(res.data.data.content[0].departmentId);
-    };
-    getDepartmentList();
+    if (localStorage.getItem('accessToken')) {
+      getDepartmentList();
+    }
   }, []);
 
   useEffect(() => {
@@ -33,14 +39,6 @@ function Home() {
       data.departmentName.includes(searchText)
     );
     setFilteredDepartments(filteredDepartments);
-
-    const getCalendarList = async () => {
-      const res = await getCalendar(null, departmentId);
-      setCalendarId(res.data.data[0]?.calenderId);
-    };
-    if (departmentId) {
-      getCalendarList();
-    }
   }, [searchText, departments, departmentId]);
 
   const handleClickMajor = (departmentName, departmentId) => {
@@ -54,6 +52,31 @@ function Home() {
 
   const onSubmit = () => {
     console.log(searchText);
+  };
+
+  const handleOnClickSubscribe = async (departmentId) => {
+    try {
+      await postDepartment(departmentId);
+      getDepartmentList();
+    } catch (error) {
+      if (error.response.code === '404_001') {
+        alert('로그인이 필요합니다.');
+      } else if (error.response.code === '404_002') {
+        alert('해당 학과가 존재하지 않습니다.');
+      }
+    }
+  };
+  const handleOnClickUnsubscribe = async (departmentId) => {
+    try {
+      await deleteDepartment(departmentId);
+      getDepartmentList();
+    } catch (error) {
+      if (error.response.code === '404_001') {
+        alert('로그인이 필요합니다.');
+      } else if (error.response.code === '404_002') {
+        alert('해당 학과가 존재하지 않습니다.');
+      }
+    }
   };
 
   return (
@@ -92,6 +115,25 @@ function Home() {
                     <span className={styles.majorName}>
                       {data.departmentName}
                     </span>
+                    {data.subscribed ? (
+                      <Button
+                        color='red'
+                        onClick={() =>
+                          handleOnClickUnsubscribe(data.departmentId)
+                        }
+                      >
+                        구독취소
+                      </Button>
+                    ) : (
+                      <Button
+                        color='blue'
+                        onClick={() =>
+                          handleOnClickSubscribe(data.departmentId)
+                        }
+                      >
+                        구독
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>

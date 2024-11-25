@@ -9,6 +9,7 @@ import { postLogin } from '@/api/authAPI';
 
 function Signin() {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -27,6 +28,11 @@ function Signin() {
       const res = await postLogin(data.email, data.password);
       localStorage.setItem('accessToken', res.data.data.accessToken);
       localStorage.setItem('userId', res.data.data.userId);
+      if (localStorage.getItem('redirectUrl')) {
+        navigate(localStorage.getItem('redirectUrl'));
+        localStorage.removeItem('redirectUrl');
+        return;
+      }
       navigate('/calendar');
     } catch (e) {
       alert('로그인에 실패했습니다.');

@@ -8,85 +8,11 @@ import './calendarcustom.css';
 import styles from './calendar.module.css';
 import InfoModal from '../modal/infomodal';
 import kebabIcon from '@/assets/calendar/kebab.svg';
-import { getDepartmentCalendar } from './../../api/calendar';
-
-const mockData = [
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test2',
-    startDay: new Date(2024, 9, 5),
-    endDay: new Date(2024, 9, 7),
-    color: '#ff4949',
-  },
-  {
-    title: 'test3',
-    startDay: new Date(2024, 9, 26),
-    endDay: new Date(2024, 9, 26),
-    color: '#2db400',
-  },
-  {
-    title: 'test4',
-    startDay: new Date(2024, 9, 2),
-    endDay: new Date(2024, 9, 5),
-    color: '#ff9b00',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test3',
-    startDay: new Date(2024, 9, 26),
-    endDay: new Date(2024, 9, 26),
-    color: '#2db400',
-  },
-  {
-    title: 'test3',
-    startDay: new Date(2024, 9, 26),
-    endDay: new Date(2024, 9, 26),
-    color: '#2db400',
-  },
-  {
-    title: 'test3',
-    startDay: new Date(2024, 9, 26),
-    endDay: new Date(2024, 9, 26),
-    color: '#2db400',
-  },
-];
+import { getDepartmentCalendar, getUserCalendar } from '@/api/calendar';
+import { getFriend, getFriendRequestReceived } from '@/api/friendAPI';
 
 function CustomCalendar({ id, usage }) {
-  const [eventData, setEventData] = useState(mockData);
+  const [eventData, setEventData] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const openModal = useinfoModalStore((state) => state.openInfoModal);
   const isOpen = useinfoModalStore((state) => state.isInfoModalOpen);
@@ -96,14 +22,13 @@ function CustomCalendar({ id, usage }) {
     setSelectedDate(date);
     openModal();
   };
-  console.log(year, month);
 
   const handleActiveStartDateChange = ({ activeStartDate }) => {
     setYearMonth(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1);
   };
 
   useEffect(() => {
-    if (usage === 'calendar') {
+    if (usage === 'calendar' && id) {
       const getDepartmentCalendarData = async () => {
         const res = await getDepartmentCalendar(
           id,
@@ -114,17 +39,39 @@ function CustomCalendar({ id, usage }) {
         );
         setEventData(res.data.data);
       };
+      getDepartmentCalendarData();
     }
-  }, [id, usage]);
+    if (usage === 'schedule') {
+      const getUserCalendarData = async () => {
+        const res = await getUserCalendar(
+          localStorage.getItem('userId'),
+          false,
+          null,
+          null,
+          `${year}-${month}`
+        );
+        setEventData(res.data.data);
+      };
+      getUserCalendarData();
+    }
+  }, [id, usage, year, month]);
 
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
-      const eventsForDay = eventData.filter(
-        (event) => date >= event.startDay && date <= event.endDay
-      );
+      const eventsForDay = eventData?.filter((event) => {
+        const start = event?.startDateTime
+          ? new Date(event.startDateTime.replace(' ', 'T'))
+          : new Date();
 
-      const isEventDay = eventsForDay.length > 0;
-      const length = eventsForDay.length;
+        const end = event?.endDateTime
+          ? new Date(event.endDateTime.replace(' ', 'T'))
+          : new Date();
+        const currentDate = new Date(date);
+        return currentDate >= start && currentDate <= end;
+      });
+
+      const isEventDay = eventsForDay?.length > 0;
+      const length = eventsForDay?.length;
       return (
         <div className={styles.tile}>
           {isEventDay && (
@@ -141,7 +88,7 @@ function CustomCalendar({ id, usage }) {
                   <div
                     key={index}
                     className={styles.eventBtn}
-                    style={{ backgroundColor: event.color }}
+                    style={{ backgroundColor: event.colorCode }}
                     onClick={() => handleClickCalendar(date)}
                   >
                     {event.title}
@@ -164,7 +111,7 @@ function CustomCalendar({ id, usage }) {
           onActiveStartDateChange={handleActiveStartDateChange}
         />
       </div>
-      {isOpen && <InfoModal date={selectedDate} />}
+      {isOpen && <InfoModal date={selectedDate} departmentId={id} />}
     </>
   );
 }

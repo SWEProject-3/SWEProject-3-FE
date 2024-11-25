@@ -40,7 +40,6 @@ function ChangePWModal({ onClose }) {
         newPassword: newPassword,
       });
 
-      console.log('비밀번호 변경 성공:', response.data);
       alert('비밀번호가 성공적으로 변경되었습니다.');
       onClose();
     } catch (error) {

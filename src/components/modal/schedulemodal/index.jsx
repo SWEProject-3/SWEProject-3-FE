@@ -1,6 +1,7 @@
 import styles from './schedulemodal.module.css';
 import { useForm } from 'react-hook-form';
 import closeIcon from '@/assets/modal/close.svg';
+import { postUserCalendar } from '@/api/calendar';
 
 function ScheduleModal({ onClose }) {
   const {
@@ -9,7 +10,33 @@ function ScheduleModal({ onClose }) {
     formState: { errors },
   } = useForm({ mode: 'onChange' });
   const onSubmit = (data) => {
-    console.log(data);
+    const {
+      name,
+      description,
+      color,
+      date,
+      enddate,
+      startTime,
+      endTime,
+      photo,
+    } = data;
+    const transformedData = {
+      title: name,
+      content: description,
+      colorCode: color,
+      startDateTime: `${date} ${startTime}`,
+      endDateTime: `${enddate} ${endTime}`,
+      imageFile: photo && photo.length > 0 ? photo[0] : null,
+    };
+    console.log(photo);
+    const postMySchedule = async () => {
+      try {
+        await postUserCalendar(transformedData);
+      } catch (error) {
+        alert('일정 추가에 실패했습니다.');
+      }
+    };
+    postMySchedule();
     onClose();
   };
 
@@ -41,7 +68,7 @@ function ScheduleModal({ onClose }) {
           {errors.name && <p className={styles.error}>{errors.name.message}</p>}
         </div>
         <div className={styles.scheduleItem}>
-          <span className={styles.scheduleTitle}>일정 날짜</span>
+          <span className={styles.scheduleTitle}>시작 날짜</span>
           <input
             type='date'
             className={styles.scheduleInput}
@@ -61,6 +88,17 @@ function ScheduleModal({ onClose }) {
           )}
         </div>
         <div className={styles.scheduleItem}>
+          <span className={styles.scheduleTitle}>종료 날짜</span>
+          <input
+            type='date'
+            className={styles.scheduleInput}
+            {...register('enddate', { required: '일정 날짜를 선택하세요.' })}
+          />
+          {errors.enddate && (
+            <p className={styles.error}>{errors.enddate.message}</p>
+          )}
+        </div>
+        <div className={styles.scheduleItem}>
           <span className={styles.scheduleTitle}>종료 시간</span>
           <input
             type='time'
@@ -70,6 +108,14 @@ function ScheduleModal({ onClose }) {
           {errors.endTime && (
             <p className={styles.error}>{errors.endTime.message}</p>
           )}
+        </div>
+        <div className={styles.scheduleItem}>
+          <span className={styles.scheduleTitle}>일정 색</span>
+          <input
+            type='color'
+            className={styles.scheduleInput}
+            {...register('color')}
+          />
         </div>
         <div className={styles.scheduleItem}>
           <span className={styles.scheduleTitle}>일정 설명</span>
@@ -82,6 +128,15 @@ function ScheduleModal({ onClose }) {
           {errors.description && (
             <p className={styles.error}>{errors.description.message}</p>
           )}
+        </div>
+        <div className={styles.scheduleItem}>
+          <span className={styles.scheduleTitle}>사진추가</span>
+          <input
+            type='file'
+            accept='image/*'
+            className={styles.scheduleInput}
+            {...register('photo')}
+          />
         </div>
         <div className={styles.btnWrapper}>
           <button className={btnClass}>일정 추가</button>
