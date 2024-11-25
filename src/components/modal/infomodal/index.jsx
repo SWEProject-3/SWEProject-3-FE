@@ -2,60 +2,16 @@ import styles from './infomodal.module.css';
 import infoModalStore from '@/store/infoModalStore';
 import closeIcon from '@/assets/modal/close.svg';
 import example from '@/assets/example1.jpg';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getDepartmentCalendar, getUserCalendar } from '@/api/calendar';
 
-const mockData = [
-  {
-    title: 'test1',
-    description: 'description1',
-    img: example,
-  },
-  {
-    title: 'test2',
-    description: 'description2',
-    img: example,
-  },
-  {
-    title: 'test3',
-    description: 'description3',
-    img: example,
-  },
-  {
-    title: 'test4',
-    description: 'description4',
-    img: example,
-  },
-  {
-    title: 'test5',
-    description: 'description5',
-    img: example,
-  },
-  {
-    title: 'test6',
-    description: 'description6',
-    img: example,
-  },
-  {
-    title: 'test7',
-    description: 'description7',
-    img: example,
-  },
-  {
-    title: 'test8',
-    description: 'description8',
-    img: example,
-  },
-  {
-    title: 'test9',
-    description: 'description9',
-    img: example,
-  },
-];
-
-function InfoModal({ date, data = mockData }) {
+function InfoModal({ date, departmentId }) {
+  const location = useLocation();
+  const url = location.pathname;
+  const [eventData, setEventData] = useState();
   const navigate = useNavigate();
   const closeModal = infoModalStore((state) => state.closeInfoModal);
-
   const formatDate = (date) => {
     const options = { month: 'long', day: 'numeric' };
     return date?.toLocaleDateString('ko-KR', options);
@@ -65,6 +21,39 @@ function InfoModal({ date, data = mockData }) {
     navigate(`/feeddetail/${id}`);
     closeModal();
   };
+
+  useEffect(() => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    if (url === '/calendar') {
+      const getDepartmentCalendarData = async () => {
+        const res = await getDepartmentCalendar(
+          departmentId,
+          true,
+          formattedDate,
+          formattedDate,
+          null
+        );
+        setEventData(res.data.data);
+      };
+      getDepartmentCalendarData();
+    } else if (url === '/schedule') {
+      const getCustomCalendarData = async () => {
+        const res = await getUserCalendar(
+          localStorage.getItem('userId'),
+          true,
+          formattedDate,
+          formattedDate,
+          null
+        );
+        setEventData(res.data.data);
+      };
+      getCustomCalendarData();
+    }
+  }, []);
+  // console.log(eventData);
 
   return (
     <div className={styles.modal}>
@@ -76,20 +65,20 @@ function InfoModal({ date, data = mockData }) {
         alt='close'
       />
       <div className={styles.infoList}>
-        {mockData.map((info, i) => (
-          <div key={i} className={styles.info}>
-            {/* <div className={styles.eventImgWrapper}>
-              <img src={info.img} className={styles.eventImg} alt='event' />
-            </div> */}
-            <div
-              className={styles.infoWrapper}
-              onClick={() => handleClickEvent(i)}
-            >
-              <div className={styles.title}>{info.title}</div>
-              <div className={styles.description}>{info.description}</div>
+        {eventData &&
+          eventData?.map((info, i) => (
+            <div key={info.eventId} className={styles.info}>
+              <div
+                className={styles.infoWrapper}
+                onClick={() => handleClickEvent(info.eventId)}
+              >
+                <div className={styles.title}>{info.title}</div>
+                <div className={styles.description}>
+                  {info.startDateTime} ~ {info.endDateTime}
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

@@ -1,0 +1,27 @@
+.button {
+  display: flex;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.6rem;
+  background: #fff;
+}
+
+.red {
+  border: 0.1rem solid #ea3c12;
+  color: #ea3c12;
+  text-align: center;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.blue {
+  border: 0.1rem solid #5849ff;
+  color: #5849ff;
+  text-align: center;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}

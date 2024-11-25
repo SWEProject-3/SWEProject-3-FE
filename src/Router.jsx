@@ -11,6 +11,7 @@ import FeedDetailPage from '@/pages/feeddetail';
 import Signin from '@/pages/auth/signin';
 import Signup from '@/pages/auth/signup';
 import FeedPage from '@/pages/feed';
+import ShareCalendarPage from '@/pages/sharecalendar';
 
 export default function AppRouter() {
   return (
@@ -29,6 +30,10 @@ export default function AppRouter() {
         <Route path='/schedule' element={<SchedulePage />} />
         <Route path='/feeddetail/:id' element={<FeedDetailPage />} />
         <Route path='/edit-profile' element={<EditProfilePage />} />
+        <Route
+          path='/sharecalendar/:id/:name'
+          element={<ShareCalendarPage />}
+        />
       </Routes>
     </BrowserRouter>
   );
