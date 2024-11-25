@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styles from './ChangePWModal.module.css';
 import { putPassword } from '@/api/authAPI';
+import { useNavigate } from 'react-router-dom';
 
 function ChangePWModal({ onClose }) {
+  const navigate = useNavigate();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -57,7 +59,8 @@ function ChangePWModal({ onClose }) {
 
       console.log('비밀번호 변경 성공:', response.data);
       alert('비밀번호가 성공적으로 변경되었습니다.');
-      onClose();
+      localStorage.clear();
+      navigate('/signin');
     } catch (error) {
       console.error('Error details:', error.response);
 
