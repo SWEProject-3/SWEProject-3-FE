@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styles from './ChangePWModal.module.css';
-import { putPassword } from '../../../api/authAPI.js';
+import { putPassword } from '@/api/authAPI';
+import { useNavigate } from 'react-router-dom';
 
 function ChangePWModal({ onClose }) {
+  const navigate = useNavigate();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,10 +19,25 @@ function ChangePWModal({ onClose }) {
     return newPw === confirmPw;
   };
 
+  const checkTokenValidity = () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      setError('로그인이 필요합니다.');
+      return false;
+    }
+    console.log('현재 토큰:', token);
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
+
+    if (!checkTokenValidity()) {
+      setIsLoading(false);
+      return;
+    }
 
     if (!isNewPasswordDifferent(currentPassword, newPassword)) {
       setError('새 비밀번호는 현재 비밀번호와 달라야 합니다.');
@@ -41,14 +58,18 @@ function ChangePWModal({ onClose }) {
       });
 
       alert('비밀번호가 성공적으로 변경되었습니다.');
-      onClose();
+      localStorage.clear();
+      navigate('/signin');
     } catch (error) {
-      console.error('비밀번호 변경 실패:', error);
-      setError(
-        error.response?.data?.message ||
-          '비밀번호 변경에 실패했습니다. 다시 시도해주세요.'
-      );
-    } finally {
+      console.error('Error details:', error.response);
+
+      if (error.response?.status === 403) {
+        setError('현재 비밀번호가 올바르지 않습니다.');
+      } else if (error.response?.status === 401) {
+        setError('현재 비밀번호가 올바르지 않습니다.');
+      } else {
+        setError('비밀번호 변경 중 오류가 발생했습니다.');
+      }
       setIsLoading(false);
     }
   };

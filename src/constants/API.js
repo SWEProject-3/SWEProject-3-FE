@@ -10,6 +10,8 @@ export const API_DEPARTMENT = Object.freeze({
   SUBSCRIPTIONS: (userId) => `/departments/${userId}/subscriptions`,
   SUBSCRIBE: (departmentId) =>
     `/users/subscriptions/departments/${departmentId}`,
+  SUBSCRIBED_DEPARTMENTS: (userId) =>
+    `/users/${userId}/subscriptions/departments`,
 });
 
 export const API_CALENDER = Object.freeze({
@@ -36,4 +38,10 @@ export const API_FRIEND = Object.freeze({
   FRIENDRECEIVED: 'friends/requests/received',
   FRIENDACCEPT: (friendshipId) => `friends/requests/received/${friendshipId}`,
   FRIENDDELETE: (friendshipId) => `friends/${friendshipId}`,
+});
+
+export const API_USER = Object.freeze({
+  WITHDRAW: '/users/withdraw',
+  PROFILE: (userId) => `/users/${userId}/profiles`,
+  EDIT_NAME: `/users/profiles`,
 });
