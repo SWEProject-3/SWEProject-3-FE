@@ -59,7 +59,7 @@ function MyPage() {
         setLoading(false);
       }
     };
-    if (localStorage.getItem('userId')) {
+    if (userId) {
       fetchData();
     }
   }, []);
