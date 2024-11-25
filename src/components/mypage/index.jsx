@@ -13,11 +13,10 @@ function MyPage() {
   const [profileData, setProfileData] = useState(null);
   const [schedules, setSchedules] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const fetchData = async () => {
-      const userId = localStorage.getItem('userId');
-
       if (!userId) {
         setError('로그인이 필요합니다');
         setLoading(false);
@@ -26,45 +25,43 @@ function MyPage() {
 
       try {
         setLoading(true);
-        if (userId) {
-          const [profileResponse, scheduleResponse, departmentsResponse] =
-            await Promise.all([
-              getProfile(userId),
-              getUserEvents(
-                userId,
-                true,
-                new Date().toISOString().split('T')[0],
-                new Date().toISOString().split('T')[0],
-                null
-              ),
-              getSubscribedDepartments(null, null, userId),
-            ]);
 
-          setProfileData(profileResponse.data.data);
+        const [profileResponse, scheduleResponse, departmentsResponse] =
+          await Promise.all([
+            getProfile(userId),
+            getUserEvents(
+              userId,
+              true,
+              new Date().toISOString().split('T')[0],
+              new Date().toISOString().split('T')[0],
+              null
+            ),
+            getSubscribedDepartments(null, null, userId),
+          ]);
 
-          const formattedSchedules = scheduleResponse.data.data.map(
-            (event) => ({
-              id: event.eventId,
-              time:
-                event.startDateTime.substring(11, 16) === '00:00'
-                  ? '하루종일'
-                  : event.startDateTime.substring(11, 16),
-              title: event.title,
-              colorCode: event.colorCode,
-            })
-          );
+        setProfileData(profileResponse.data.data);
 
-          setSchedules(formattedSchedules);
-          setDepartments(departmentsResponse.data.data.content);
-        }
+        const formattedSchedules = scheduleResponse.data.data.map((event) => ({
+          id: event.eventId,
+          time:
+            event.startDateTime.substring(11, 16) === '00:00'
+              ? '하루종일'
+              : event.startDateTime.substring(11, 16),
+          title: event.title,
+          colorCode: event.colorCode,
+        }));
+
+        setSchedules(formattedSchedules);
+        setDepartments(departmentsResponse.data.data.content);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchData();
+    if (localStorage.getItem('userId')) {
+      fetchData();
+    }
   }, []);
 
   if (loading) return <div className={styles.loading}>로딩 중...</div>;
