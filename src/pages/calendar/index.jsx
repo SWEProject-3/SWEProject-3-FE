@@ -28,11 +28,12 @@ function Home() {
     setSelectedMajor(res.data.data.content[0].departmentName);
     setDepartmentId(res.data.data.content[0].departmentId);
   };
+  const accessToken = localStorage.getItem('accessToken');
   useEffect(() => {
-    if (localStorage.getItem('accessToken')) {
+    if (accessToken) {
       getDepartmentList();
     }
-  }, []);
+  }, [accessToken]);
 
   useEffect(() => {
     const filteredDepartments = departments.filter((data) =>
