@@ -26,9 +26,10 @@ function CustomCalendar({ id, usage }) {
   const handleActiveStartDateChange = ({ activeStartDate }) => {
     setYearMonth(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1);
   };
+  const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
-    if (usage === 'calendar' && id) {
+    if (usage === 'calendar' && id && accessToken) {
       const getDepartmentCalendarData = async () => {
         const res = await getDepartmentCalendar(
           id,
@@ -67,7 +68,7 @@ function CustomCalendar({ id, usage }) {
       };
       getUserShareCalendarData();
     }
-  }, [id, usage, year, month]);
+  }, [id, usage, year, month, accessToken]);
 
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
