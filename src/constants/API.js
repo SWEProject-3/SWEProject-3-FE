@@ -17,3 +17,9 @@ export const API_CALENDER = Object.freeze({
   CALENDAR_CHANGE: (calendarId) => `/calenders/${calendarId}`,
   CALENDAR_DETAIL: (calendarId) => `/calenders/${calendarId}/events`,
 });
+
+export const API_FEED_SORTING = Object.freeze({
+  FEED_SORTING: '/users/subscriptions/departments/events',
+  FEED_SORTING_DETAIL: (sort, query, page) =>
+    `/users/subscriptions/departments/events?sort=${sort}&query=${query}&page=${page}`,
+});
