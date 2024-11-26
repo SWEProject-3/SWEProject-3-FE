@@ -29,6 +29,7 @@ function Home() {
   const [isAddFriendClicked, setIsAddFriendClicked] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [isAddFriendListOpen, setIsAddFriendListOpen] = useState(false);
+  const accessToken = localStorage.getItem('accessToken');
   const getFriendList = async () => {
     const res = await getFriend();
     setFriendAllData(res.data.data);
@@ -39,9 +40,11 @@ function Home() {
     setFriendRequestList(res.data.data);
   };
   useEffect(() => {
-    getFriendList();
-    getFriendRequestList();
-  }, []);
+    if (accessToken) {
+      getFriendList();
+      getFriendRequestList();
+    }
+  }, [accessToken]);
 
   const onChangeInput = (e) => {
     setInputValue(e.target.value);
