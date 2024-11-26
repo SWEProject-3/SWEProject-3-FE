@@ -25,10 +25,20 @@ export const postLogin = (email, password) => {
   });
 };
 
-export const putPassword = (data) => {
+export const putPassword = ({ oldPassword, newPassword }) => {
   return instance({
-    url: '/auth/password',
+    url: API_AUTH.PASSWORD,
     method: 'PUT',
-    data,
+    data: {
+      oldPassword,
+      newPassword,
+    },
+  });
+};
+
+export const getCheckToken = () => {
+  return instance({
+    url: API_AUTH.CHECK_TOKEN,
+    method: 'GET',
   });
 };

@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1000, // build 오류 방지
   },
-  base: './',
+  base: '/',
   resolve: {
     alias: [
       { find: '@', replacement: '/src' },

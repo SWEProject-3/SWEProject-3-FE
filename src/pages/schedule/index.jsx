@@ -6,39 +6,45 @@ import addFriendIcon from '@/assets/schedule/addfriend.svg';
 import upIcon from '@/assets/schedule/up.svg';
 import downIcon from '@/assets/schedule/down.svg';
 import plusIcon from '@/assets/schedule/plus.svg';
+import minusIcon from '@/assets/schedule/minus.svg';
 
 import styles from './page.module.css';
 import ScheduleModal from '@/components/modal/schedulemodal';
 import FriendModal from '@/components/modal/friendmodal';
-
-const friendData = [
-  { name: '김철수' },
-  { name: '박영희' },
-  { name: '이영수' },
-  { name: '홍길동' },
-  { name: '최준영' },
-  { name: '김민수' },
-  { name: '박민지' },
-  { name: '이지훈' },
-  { name: '김지수' },
-  { name: '박지원' },
-];
-
-const requestFriendData = [
-  { name: '김철수' },
-  { name: '박영희' },
-  { name: '이영수' },
-  { name: '심유정' },
-];
+import {
+  deleteFriend,
+  getFriend,
+  getFriendRequestReceived,
+  putFriendAccept,
+} from '@/api/friendAPI';
+import { useNavigate } from 'react-router-dom';
+import Button from '@/components/button';
 
 function Home() {
-  const [friendAllData, setFriendAllData] = useState(friendData);
+  const navigate = useNavigate();
+  const [friendAllData, setFriendAllData] = useState([]);
   const [friendList, setFriendList] = useState([]);
-  const [friendRequestList, setFriendRequestList] = useState(requestFriendData);
+  const [friendRequestList, setFriendRequestList] = useState([]);
   const [isAddBtnClicked, setIsAddBtnClicked] = useState(false);
   const [isAddFriendClicked, setIsAddFriendClicked] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [isAddFriendListOpen, setIsAddFriendListOpen] = useState(false);
+  const accessToken = localStorage.getItem('accessToken');
+  const getFriendList = async () => {
+    const res = await getFriend();
+    setFriendAllData(res.data.data);
+    setFriendList(res.data.data);
+  };
+  const getFriendRequestList = async () => {
+    const res = await getFriendRequestReceived();
+    setFriendRequestList(res.data.data);
+  };
+  useEffect(() => {
+    if (accessToken) {
+      getFriendList();
+      getFriendRequestList();
+    }
+  }, [accessToken]);
 
   const onChangeInput = (e) => {
     setInputValue(e.target.value);
@@ -90,6 +96,27 @@ function Home() {
     handleFriendList();
   }, [inputValue]);
 
+  const handleFriendDelete = async (friendShipId) => {
+    await deleteFriend(friendShipId);
+    await getFriendList();
+  };
+
+  const handleAcceptFriend = async (friendShipId) => {
+    await putFriendAccept(friendShipId, true);
+    await getFriendList();
+    await getFriendRequestList();
+  };
+
+  const handleRejectFriend = async (friendShipId) => {
+    await putFriendAccept(friendShipId, false);
+    await getFriendRequestList();
+    await getFriendRequestList();
+  };
+
+  const navigateToFriendList = (friendId, friendName) => {
+    navigate(`/sharecalendar/${friendId}/${friendName}`);
+  };
+
   return (
     <>
       <PageLayout>
@@ -120,35 +147,55 @@ function Home() {
               )}
             </div>
             <div className={styles.friendListWrapper}>
-              {friendList.map((data) => (
-                <div
-                  className={styles.friendItem}
-                  key={data.name}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {data.name}
-                </div>
-              ))}
+              {friendList &&
+                friendList.map((data, i) => (
+                  <div
+                    className={`${styles.friendItem} ${styles.plusfriend}`}
+                    key={i}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      navigateToFriendList(data.friendUserId, data.friendName)
+                    }
+                  >
+                    {data.friendName}
+                    <img
+                      src={minusIcon}
+                      className={styles.deleteIcon}
+                      onClick={() => handleFriendDelete(data.friendshipId)}
+                    />
+                  </div>
+                ))}
             </div>
             <div
               className={styles.addFriend}
               onClick={() => setIsAddFriendListOpen(!isAddFriendListOpen)}
             >
-              <span className={styles.addFriendTitle}>친구 요청</span>
+              <span className={styles.addFriendTitle}>
+                친구 요청 ({friendRequestList?.length})
+              </span>
               <img src={arrowImg} className={styles.arrowIcon} />
             </div>
             <div className={addFriendListStyle}>
-              {friendRequestList.map((data) => (
+              {friendRequestList?.map((data, i) => (
                 <div
                   className={`${styles.friendItem} ${styles.plusfriend}`}
-                  key={data.name}
+                  key={i}
                 >
-                  {data.name}
-                  <img
-                    src={plusIcon}
-                    className={styles.icon}
-                    onClick={() => handleRequestFriendList(data.name)}
-                  />
+                  {data.friendName}
+                  <div className={styles.btnWrapper}>
+                    <Button
+                      color='red'
+                      onClick={() => handleRejectFriend(data.friendshipId)}
+                    >
+                      거절
+                    </Button>
+                    <Button
+                      color='blue'
+                      onClick={() => handleAcceptFriend(data.friendshipId)}
+                    >
+                      수락
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>

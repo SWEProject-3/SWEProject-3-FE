@@ -191,8 +191,185 @@
   cursor: pointer;
 }
 
-.bar {
+.modalbar {
   width: 2.7rem;
   height: 0;
   border-bottom: 0.4rem solid var(--color-gray-bright);
+}
+
+.commentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 2rem 1.5rem 2rem;
+  gap: 1.6rem;
+}
+.commentTitle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
+  color: var(--color-black);
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 3.06rem;
+}
+
+.commentCnt {
+  color: var(--color-main);
+}
+.commentContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  border-bottom: 0.1rem solid var(--color-gray-light);
+  padding-bottom: 1.5rem;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.commentUser {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2.4rem;
+}
+.commentName {
+  color: #000;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.8rem;
+}
+.commentDate {
+  color: var(--color-gray-middle);
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.8rem;
+}
+.kebabIcon {
+  width: 2.4rem;
+  height: 2.4rem;
+  cursor: pointer;
+}
+
+.comment {
+  width: 100%;
+  color: #000;
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.8rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* .commentInput {
+  width: 100%;
+  color: #000;
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.8rem;
+} */
+
+.editmodal {
+  display: flex;
+  width: 8rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 1rem;
+  position: absolute;
+  top: 2.5rem;
+  right: -1rem;
+  border: 0.1rem solid var(--color-gray-light);
+  background: var(--color-white);
+  z-index: 100;
+}
+.bar {
+  width: 100%;
+  height: 0;
+  border-bottom: 0.1rem solid var(--color-gray-light);
+  background-color: var(--color-gray-light);
+}
+.modalcontent {
+  color: #000;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.8rem 0;
+}
+.modalcontent:hover {
+  color: var(--color-main);
+  background-color: #f0f0f0;
+}
+
+.commentInput {
+  width: 100%;
+  height: 4rem;
+  border-radius: 0.5rem;
+  background: var(--gray_bright, #ededed);
+  color: #333;
+  font-family: Pretendard;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 2.38rem;
+  outline: none;
+  border: none;
+  padding: 0 1rem;
+  &::placeholder {
+    color: var(--gray_middle, #787878);
+    font-family: Pretendard;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2.38rem; /* 170% */
+  }
+}
+
+.editInput {
+  width: 100%;
+  height: 3rem;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #333;
+  font-family: Pretendard;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 2.38rem;
+  outline: none;
+}
+
+.btnWrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.heartIcon {
+  width: 2.4rem;
+  height: 2.4rem;
+  cursor: pointer;
 }

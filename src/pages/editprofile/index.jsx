@@ -1,21 +1,20 @@
-import { useState } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import EditProfile from '@/components/editprofile';
 import styles from './page.module.css';
 import Footer from '@/components/footer';
-import ChangePWModal from '@/components/modal/changepwmodal';
 
 function Home() {
-  const [isChangePWClicked, setIsChangePWClicked] = useState(false);
-
-  const onClickChangePWClose = () => {
-    setIsChangePWClicked(false);
+  const location = useLocation();
+  const profileData = location.state?.profileData || {
+    name: '기본 사용자',
+    email: 'default@example.com',
   };
 
   return (
     <>
       <div className={styles.pageWrapper}>
-        <EditProfile onOpenChangePWModal={() => setIsChangePWClicked(true)} />
-        {isChangePWClicked && <ChangePWModal onClose={onClickChangePWClose} />}
+        <EditProfile user={profileData} />
       </div>
       <Footer />
     </>

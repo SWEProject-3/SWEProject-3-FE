@@ -1,0 +1,22 @@
+.header {
+  background-color: rgb(255, 255, 255);
+  position: sticky;
+  z-index: 10;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  border-bottom: 0.1rem solid var(--color-gray-bright);
+  margin-bottom: 2rem;
+}
+
+.back {
+  cursor: pointer;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin-left: 1rem;
+}
