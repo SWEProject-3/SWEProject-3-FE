@@ -14,44 +14,11 @@ function SearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [recentSearchTerm, setRecentSearchTerm] = useState([]);
-  const recentSearches = [
-    '최근검색어1',
-    '최근검색어2',
-    '최근검색어3',
-    '최근검색어4',
-    '최근검색어5',
-    '최근검색어6',
-    '최근검색어7',
-    '최근검색어8',
-    '최근검색어9',
-    '최근검색어10',
-  ];
-  const recentNotices = [
-    {
-      title: '최근 본 일정1',
-      date: '2024-10-23',
-      photo: sampleimage,
-      likes: 50,
-      comments: 10,
-    },
-    {
-      title: '최근 본 일정2',
-      date: '2024-10-24',
-      photo: sampleimage,
-      likes: 75,
-      comments: 22,
-    },
-    {
-      title: '최근 본 일정3',
-      date: '2024-10-26',
-      photo: sampleimage,
-      likes: 12,
-      comments: 34,
-    },
-  ];
 
   const recentSearchRef = useRef(null);
   const scrollRecentSearchHandler = useScrollHandlers(recentSearchRef);
+
+  const [recentNotices, setRecentNotices] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -67,12 +34,13 @@ function SearchComponent() {
   const handleSearchClick = (e) => {
     e.preventDefault();
     if (searchTerm) {
-      // 클릭 상태를 true로 설정 (아이콘 변경)
       let recentSearchTerms =
         JSON.parse(localStorage.getItem('recentSearchTerms')) || [];
-      if (!recentSearchTerms.includes(searchTerm)) {
-        recentSearchTerms = [searchTerm, ...recentSearchTerms].slice(0, 10);
-      }
+      recentSearchTerms = [
+        searchTerm, // 검색어를 맨 앞에 추가
+        ...recentSearchTerms.filter((term) => term !== searchTerm), // 기존 배열에서 중복 제거
+      ].slice(0, 10);
+
       localStorage.setItem(
         'recentSearchTerms',
         JSON.stringify(recentSearchTerms)
@@ -80,14 +48,30 @@ function SearchComponent() {
       setIsSearchClicked(true);
 
       // 검색어를 가지고 특정 페이지로 이동
-      navigate(`/search-results?query=${searchTerm}`);
+      navigate(`/feed?query=${searchTerm}`);
     } else {
       alert('검색어를 입력하세요.');
     }
   };
 
   const handleRecentSearchClick = (term) => {
-    navigate(`/search-results?query=${term}`);
+    let recentSearchTerms =
+      JSON.parse(localStorage.getItem('recentSearchTerms')) || [];
+
+    // 클릭된 검색어를 맨 앞으로 이동
+    recentSearchTerms = [
+      term, // 클릭된 검색어를 맨 앞에 추가
+      ...recentSearchTerms.filter((t) => t !== term), // 중복 제거
+    ].slice(0, 10); // 최대 10개 유지
+
+    // 업데이트된 검색어 목록 저장
+    localStorage.setItem(
+      'recentSearchTerms',
+      JSON.stringify(recentSearchTerms)
+    );
+
+    // 검색어를 가지고 특정 페이지로 이동
+    navigate(`/feed?query=${term}`);
   };
 
   const onSubmit = () => {
@@ -100,9 +84,29 @@ function SearchComponent() {
   useEffect(() => {
     if (savedTerm.length > 0) {
       setRecentSearchTerm(savedTerm);
-    } else {
-      setRecentSearchTerm(recentSearches); // 기본 더미 데이터를 설정
     }
+  }, []);
+
+  const handleRecentNoticeClick = (id) => {
+    let recentNotices = JSON.parse(localStorage.getItem('recentNotices')) || [];
+    const notice = recentNotices.find(
+      (notice) => notice.eventInfo.eventId === id
+    );
+    recentNotices = recentNotices.filter(
+      // 중복된 공지를 제거
+      (notice) => notice.eventInfo.eventId !== id
+    );
+    // 새로운 공지를 맨 앞에 추가, 최대 10개 유지
+    recentNotices = [notice, ...recentNotices].slice(0, 10);
+    localStorage.setItem('recentNotices', JSON.stringify(recentNotices));
+    // 검색어를 가지고 특정 페이지로 이동
+    navigate(`/feeddetail/${id}`);
+  };
+
+  useEffect(() => {
+    const savedNotices =
+      JSON.parse(localStorage.getItem('recentNotices')) || [];
+    setRecentNotices(savedNotices);
   }, []);
 
   return (
@@ -156,17 +160,30 @@ function SearchComponent() {
       <div className={styles.recentNoticeContainer}>
         <h3 className={styles.recentNoticeTitle}>최근 본 일정</h3>
         <ul className={styles.recentNoticeList}>
-          {recentNotices.map((noticeItem, index) => (
-            <li key={index} className={styles.noticeItem}>
+          {recentNotices.map((notice) => (
+            <li
+              key={notice.eventInfo.eventId}
+              className={styles.noticeItem}
+              onClick={() => handleRecentNoticeClick(notice.eventInfo.eventId)}
+            >
               <div className={styles.noticeItemContent}>
                 <div className={styles.noticeItemInfo}>
                   <div className={styles.noticeItemInfo2}>
-                    <p className={styles.noticeItemTitle}>{noticeItem.title}</p>
-                    <p className={styles.noticeItemDate}>{noticeItem.date}</p>
+                    <p className={styles.noticeItemTitle}>
+                      {notice.eventInfo.title}
+                    </p>
+                    <p className={styles.noticeItemDate}>
+                      {notice.eventInfo.startDateTime} ~
+                      {notice.eventInfo.endDateTime}
+                    </p>
                   </div>
                   <div className={styles.noticeItemStats}>
-                    <p className={styles.likes}>❤️ {noticeItem.likes}</p>
-                    <p className={styles.comments}>💬 {noticeItem.comments}</p>
+                    <p className={styles.likes}>
+                      ❤️ {notice.eventInfo.likeCount}
+                    </p>
+                    <p className={styles.comments}>
+                      💬 {notice.eventInfo.commentCount}
+                    </p>
                   </div>
                 </div>
               </div>
