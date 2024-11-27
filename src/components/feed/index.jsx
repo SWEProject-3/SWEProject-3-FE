@@ -130,16 +130,36 @@ function FeedComponent() {
             </li>
           ))}
         </ul>
-        {/* 페이지네이션 버튼 */}
+      </div>
+      {/* 페이지네이션 버튼 */}
+      <div className={styles.paginationWrapper}>
         <div className={styles.pagination}>
+          {/* 이전 버튼 */}
           {pageInfo.number > 0 && (
             <button onClick={() => loadNotices(pageInfo.number - 1)}>
-              Previous
+              이전
             </button>
           )}
+
+          {/* 페이지 번호 */}
+          {Array.from({ length: pageInfo.totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => loadNotices(index)}
+              className={
+                pageInfo.number === index
+                  ? styles.currentPage
+                  : styles.pageButton
+              }
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          {/* 다음 버튼 */}
           {pageInfo.number < pageInfo.totalPages - 1 && (
             <button onClick={() => loadNotices(pageInfo.number + 1)}>
-              Next
+              다음
             </button>
           )}
         </div>
