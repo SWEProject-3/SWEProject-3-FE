@@ -27,6 +27,9 @@
   color: #000;
   border-radius: 0.25rem;
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icon {

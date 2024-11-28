@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './DeleteAccountModal.module.css';
+import styles from './deleteaccountmodal.module.css';
 import { deleteUser } from '@/api/userAPI';
 
 function DeleteAccountModal({ onClose, onConfirm }) {

@@ -13,11 +13,10 @@ function MyPage() {
   const [profileData, setProfileData] = useState(null);
   const [schedules, setSchedules] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const fetchData = async () => {
-      const userId = localStorage.getItem('userId');
-
       if (!userId) {
         setError('로그인이 필요합니다');
         setLoading(false);
@@ -26,6 +25,7 @@ function MyPage() {
 
       try {
         setLoading(true);
+
         const [profileResponse, scheduleResponse, departmentsResponse] =
           await Promise.all([
             getProfile(userId),
@@ -59,8 +59,9 @@ function MyPage() {
         setLoading(false);
       }
     };
-
-    fetchData();
+    if (userId) {
+      fetchData();
+    }
   }, []);
 
   if (loading) return <div className={styles.loading}>로딩 중...</div>;
@@ -127,9 +128,7 @@ function MyPage() {
                 className={styles.departmentItem}
                 key={department.departmentId}
               >
-                <span className={styles.scheduleTitle}>
-                  {department.departmentName}
-                </span>
+                <span className={styles.scheduleTitle}>{department.name}</span>
               </li>
             ))}
           </ul>

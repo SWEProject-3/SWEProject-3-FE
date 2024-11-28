@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Calendar from 'react-calendar';
 import useinfoModalStore from '@/store/infoModalStore';
@@ -8,88 +8,16 @@ import './calendarcustom.css';
 import styles from './calendar.module.css';
 import InfoModal from '../modal/infomodal';
 import kebabIcon from '@/assets/calendar/kebab.svg';
+import { getDepartmentCalendar, getUserCalendar } from '@/api/calendar';
+import { getFriend, getFriendRequestReceived } from '@/api/friendAPI';
 
-const mockData = [
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test2',
-    startDay: new Date(2024, 9, 5),
-    endDay: new Date(2024, 9, 7),
-    color: '#ff4949',
-  },
-  {
-    title: 'test3',
-    startDay: new Date(2024, 9, 26),
-    endDay: new Date(2024, 9, 26),
-    color: '#2db400',
-  },
-  {
-    title: 'test4',
-    startDay: new Date(2024, 9, 2),
-    endDay: new Date(2024, 9, 5),
-    color: '#ff9b00',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test1',
-    startDay: new Date(2024, 9, 1),
-    endDay: new Date(2024, 9, 3),
-    color: '#5849ff',
-  },
-  {
-    title: 'test3',
-    startDay: new Date(2024, 9, 26),
-    endDay: new Date(2024, 9, 26),
-    color: '#2db400',
-  },
-  {
-    title: 'test3',
-    startDay: new Date(2024, 9, 26),
-    endDay: new Date(2024, 9, 26),
-    color: '#2db400',
-  },
-  {
-    title: 'test3',
-    startDay: new Date(2024, 9, 26),
-    endDay: new Date(2024, 9, 26),
-    color: '#2db400',
-  },
-];
-
-function CustomCalendar({ usage, data }) {
-  const [eventData, setEventData] = useState(mockData);
+function CustomCalendar({ id, usage }) {
+  const [eventData, setEventData] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const openModal = useinfoModalStore((state) => state.openInfoModal);
   const isOpen = useinfoModalStore((state) => state.isInfoModalOpen);
   const setYearMonth = useYearMonthStore((state) => state.setYearMonth);
+  const { year, month } = useYearMonthStore();
   const handleClickCalendar = (date) => {
     setSelectedDate(date);
     openModal();
@@ -98,15 +26,66 @@ function CustomCalendar({ usage, data }) {
   const handleActiveStartDateChange = ({ activeStartDate }) => {
     setYearMonth(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1);
   };
+  const accessToken = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    if (usage === 'calendar' && id && accessToken) {
+      const getDepartmentCalendarData = async () => {
+        const res = await getDepartmentCalendar(
+          id,
+          false,
+          null,
+          null,
+          `${year}-${month}`
+        );
+        setEventData(res.data.data);
+      };
+      getDepartmentCalendarData();
+    }
+    if (usage === 'schedule') {
+      const getUserCalendarData = async () => {
+        const res = await getUserCalendar(
+          localStorage.getItem('userId'),
+          false,
+          null,
+          null,
+          `${year}-${month}`
+        );
+        setEventData(res.data.data);
+      };
+      getUserCalendarData();
+    }
+    if (usage === 'share') {
+      const getUserShareCalendarData = async () => {
+        const res = await getUserCalendar(
+          id,
+          false,
+          null,
+          null,
+          `${year}-${month}`
+        );
+        setEventData(res.data.data);
+      };
+      getUserShareCalendarData();
+    }
+  }, [id, usage, year, month, accessToken]);
 
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
-      const eventsForDay = eventData.filter(
-        (event) => date >= event.startDay && date <= event.endDay
-      );
+      const eventsForDay = eventData?.filter((event) => {
+        const start = event?.startDateTime
+          ? new Date(event.startDateTime.replace(' ', 'T'))
+          : new Date();
 
-      const isEventDay = eventsForDay.length > 0;
-      const length = eventsForDay.length;
+        const end = event?.endDateTime
+          ? new Date(event.endDateTime.replace(' ', 'T'))
+          : new Date();
+        const currentDate = new Date(date);
+        return currentDate >= start && currentDate <= end;
+      });
+
+      const isEventDay = eventsForDay?.length > 0;
+      const length = eventsForDay?.length;
       return (
         <div className={styles.tile}>
           {isEventDay && (
@@ -123,7 +102,7 @@ function CustomCalendar({ usage, data }) {
                   <div
                     key={index}
                     className={styles.eventBtn}
-                    style={{ backgroundColor: event.color }}
+                    style={{ backgroundColor: event.colorCode }}
                     onClick={() => handleClickCalendar(date)}
                   >
                     {event.title}
@@ -146,7 +125,7 @@ function CustomCalendar({ usage, data }) {
           onActiveStartDateChange={handleActiveStartDateChange}
         />
       </div>
-      {isOpen && <InfoModal date={selectedDate} />}
+      {isOpen && <InfoModal date={selectedDate} departmentId={id} />}
     </>
   );
 }

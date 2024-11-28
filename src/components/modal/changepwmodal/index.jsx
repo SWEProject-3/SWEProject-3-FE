@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './ChangePWModal.module.css';
+import styles from './changepwmodal.module.css';
 import { putPassword } from '@/api/authAPI';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +25,6 @@ function ChangePWModal({ onClose }) {
       setError('로그인이 필요합니다.');
       return false;
     }
-    console.log('현재 토큰:', token);
     return true;
   };
 
@@ -57,7 +56,6 @@ function ChangePWModal({ onClose }) {
         newPassword: newPassword,
       });
 
-      console.log('비밀번호 변경 성공:', response.data);
       alert('비밀번호가 성공적으로 변경되었습니다.');
       localStorage.clear();
       navigate('/signin');
