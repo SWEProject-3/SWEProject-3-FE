@@ -49,7 +49,7 @@ function MyPage() {
           const isAllDayEvent =
             event.startDateTime.substring(11, 16) === '00:00'; // 시작날짜 00:00인 경우 하루종일로 처리
 
-          const isEventToday = today >= eventStartDate && today <= eventEndDate; //오늘 날짜가 이벤트 기간에 포함되어 있는 경우 하루종일로 처리
+          const isEventToday = today > eventStartDate && today <= eventEndDate; //오늘 날짜가 이벤트 기간에 포함되어 있는 경우 하루종일로 처리
 
           return {
             id: event.eventId,
