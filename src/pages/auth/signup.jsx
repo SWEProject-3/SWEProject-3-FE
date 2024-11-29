@@ -39,6 +39,11 @@ function Signup() {
     }
   };
 
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const nameRegex = /^(?:[가-힣]+|[a-zA-Z\s]+)$/;
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+
   return (
     <div className={styles.pageWrapper}>
       <form className={styles.loginWrapper}>
@@ -50,7 +55,14 @@ function Signup() {
           <input
             type='text'
             className={styles.input}
-            {...register('name', { required: '이름을 입력해주세요.' })}
+            {...register('name', {
+              required: '이름을 입력해주세요.',
+              pattern: {
+                value: nameRegex,
+                message:
+                  '한글 또는 영문으로 입력해주세요.(한글은 띄워쓰기 불가)',
+              },
+            })}
             placeholder='이름을 입력해주세요'
           />
           {errors.name && (
@@ -62,7 +74,13 @@ function Signup() {
           <input
             type='email'
             className={styles.input}
-            {...register('email', { required: '이메일을 입력해주세요.' })}
+            {...register('email', {
+              required: '이메일을 입력해주세요.',
+              pattern: {
+                value: emailRegex,
+                message: '이메일 형식에 맞게 입력해주세요',
+              },
+            })}
             placeholder='이메일을 입력해주세요'
           />
           {errors.email && (
@@ -74,7 +92,13 @@ function Signup() {
           <input
             type={passwordType}
             className={styles.input}
-            {...register('password', { required: '비밀번호를 입력해주세요.' })}
+            {...register('password', {
+              required: '비밀번호를 입력해주세요.',
+              pattern: {
+                value: passwordRegex,
+                message: '비밀번호는 8~16자리의 영문, 숫자 조합이어야 합니다.',
+              },
+            })}
             placeholder='비밀번호를 입력해주세요'
           />
           {errors.password && (
