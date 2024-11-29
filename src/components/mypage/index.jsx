@@ -41,15 +41,26 @@ function MyPage() {
 
         setProfileData(profileResponse.data.data);
 
-        const formattedSchedules = scheduleResponse.data.data.map((event) => ({
-          id: event.eventId,
-          time:
-            event.startDateTime.substring(11, 16) === '00:00'
-              ? '하루종일'
-              : event.startDateTime.substring(11, 16),
-          title: event.title,
-          colorCode: event.colorCode,
-        }));
+        const today = new Date().toISOString().split('T')[0]; // 오늘 날짜 (YYYY-MM-DD)
+
+        const formattedSchedules = scheduleResponse.data.data.map((event) => {
+          const eventStartDate = event.startDateTime.split('T')[0]; // 이벤트 시작 날짜
+          const eventEndDate = event.endDateTime.split('T')[0]; // 이벤트 종료 날짜
+          const isAllDayEvent =
+            event.startDateTime.substring(11, 16) === '00:00'; // 시작날짜 00:00인 경우 하루종일로 처리
+
+          const isEventToday = today > eventStartDate && today <= eventEndDate; //오늘 날짜가 이벤트 기간에 포함되어 있는 경우 하루종일로 처리
+
+          return {
+            id: event.eventId,
+            time:
+              isAllDayEvent || isEventToday
+                ? '하루종일'
+                : event.startDateTime.substring(11, 16),
+            title: event.title,
+            colorCode: event.colorCode,
+          };
+        });
 
         setSchedules(formattedSchedules);
         setDepartments(departmentsResponse.data.data.content);

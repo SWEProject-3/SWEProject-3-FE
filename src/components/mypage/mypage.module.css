@@ -100,7 +100,7 @@
 .scheduleTime {
   font-weight: bolder;
   flex-shrink: 0;
-  min-width: 4rem;
+  width: 5.5rem;
 }
 
 .scheduleTitle {
