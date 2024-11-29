@@ -109,3 +109,17 @@ export const getUserEvents = (
     params,
   });
 };
+
+export const postMyCalendar = (eventId) => {
+  return instance({
+    url: API_CALENDER.EVENT(eventId),
+    method: 'POST',
+  });
+};
+
+export const deleteMyCalendar = (eventId) => {
+  return instance({
+    url: API_CALENDER.EVENT(eventId),
+    method: 'DELETE',
+  });
+};

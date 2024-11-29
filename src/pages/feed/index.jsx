@@ -1,13 +1,15 @@
-import PageLayout from '@/components/pagelayout';
 import FeedComponent from '@/components/feed';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 function FeedPage() {
-
-    return (
-        <PageLayout>
-            <FeedComponent/>
-        </PageLayout>
-    );
+  return (
+    <>
+      <Header />
+      <FeedComponent />
+      <Footer />
+    </>
+  );
 }
 
 export default FeedPage;

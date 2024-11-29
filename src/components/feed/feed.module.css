@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100dvh;
+  height: 100vh;
   background-color: var(--color-white);
   position: relative;
   overflow: hidden;
-
+  margin-top: 1rem;
+  margin-bottom: 3rem;
   @media screen and (max-width: 767px) {
     width: 100%;
   }
@@ -83,12 +84,25 @@
     padding-left: 1rem;
     padding-right: 1.3rem;
   }
-
   @media screen and (min-width: 768px) {
     padding-left: 2rem;
     padding-right: 2.6rem;
   }
+
   flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 3rem;
+  &::-webkit-scrollbar {
+    width: 0.4rem;
+    height: 2rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #d1d1d1;
+    border-radius: 0.8rem;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #fafafa;
+  }
 }
 
 .feedList {

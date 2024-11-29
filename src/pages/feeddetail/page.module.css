@@ -73,6 +73,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
 }
 .eventTitle {
   color: var(--black-333, #333);
@@ -81,6 +82,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: 3.06rem;
+  width: 60%;
 }
 
 .shareButton {
@@ -365,7 +367,11 @@
 
 .btnWrapper {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  width: 38%;
 }
 
 .heartIcon {

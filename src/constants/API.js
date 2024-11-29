@@ -51,6 +51,5 @@ export const API_USER = Object.freeze({
 });
 
 export const API_FEED_SORTING = Object.freeze({
-  FEED_SORTING: (sort, query, page) =>
-    `/users/subscriptions/departments/events?sort=${sort}&query=${query}&page=${page}`,
+  FEED_SORTING: `/users/subscriptions/departments/events`,
 });

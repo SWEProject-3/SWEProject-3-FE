@@ -20,9 +20,9 @@ function Header() {
         <div onClick={() => navigate('/search')} className={styles.menu}>
           <img className={styles.icon} src={searchIcon} alt='search' />
         </div>
-        <div onClick={() => navigate('/alarm')} className={styles.menu}>
+        {/* <div onClick={() => navigate('/alarm')} className={styles.menu}>
           <img className={styles.icon} src={alarmIcon} alt='alarmpage' />
-        </div>
+        </div> */}
       </div>
     </header>
   );

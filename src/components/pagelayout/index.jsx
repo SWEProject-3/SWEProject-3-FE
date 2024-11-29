@@ -2,7 +2,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import styles from './pagelayout.module.css';
 
-function PageLayout({ children}) {
+function PageLayout({ children }) {
   return (
     <div className={styles.page}>
       <Header />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Calendar from 'react-calendar';
 import useinfoModalStore from '@/store/infoModalStore';
@@ -10,8 +10,9 @@ import InfoModal from '../modal/infomodal';
 import kebabIcon from '@/assets/calendar/kebab.svg';
 import { getDepartmentCalendar, getUserCalendar } from '@/api/calendar';
 import { getFriend, getFriendRequestReceived } from '@/api/friendAPI';
+import { set } from 'react-hook-form';
 
-function CustomCalendar({ id, usage }) {
+function CustomCalendar({ id, usage, isAddBtnClicked }) {
   const [eventData, setEventData] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const openModal = useinfoModalStore((state) => state.openInfoModal);
@@ -19,9 +20,18 @@ function CustomCalendar({ id, usage }) {
   const setYearMonth = useYearMonthStore((state) => state.setYearMonth);
   const { year, month } = useYearMonthStore();
   const handleClickCalendar = (date) => {
-    setSelectedDate(date);
-    openModal();
+    if (usage !== 'share') {
+      setSelectedDate(date);
+      openModal();
+    }
   };
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+
+  useEffect(() => {
+    setYearMonth(currentYear, currentMonth);
+  }, []);
 
   const handleActiveStartDateChange = ({ activeStartDate }) => {
     setYearMonth(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1);
@@ -29,6 +39,7 @@ function CustomCalendar({ id, usage }) {
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
+    const formattedMonth = String(month).padStart(2, '0');
     if (usage === 'calendar' && id && accessToken) {
       const getDepartmentCalendarData = async () => {
         const res = await getDepartmentCalendar(
@@ -36,24 +47,26 @@ function CustomCalendar({ id, usage }) {
           false,
           null,
           null,
-          `${year}-${month}`
+          `${year}-${formattedMonth}`
         );
         setEventData(res.data.data);
       };
       getDepartmentCalendarData();
     }
-    if (usage === 'schedule') {
+    if (usage === 'schedule' && !isAddBtnClicked) {
       const getUserCalendarData = async () => {
         const res = await getUserCalendar(
           localStorage.getItem('userId'),
           false,
           null,
           null,
-          `${year}-${month}`
+          `${year}-${formattedMonth}`
         );
         setEventData(res.data.data);
       };
-      getUserCalendarData();
+      setTimeout(() => {
+        getUserCalendarData();
+      }, 500);
     }
     if (usage === 'share') {
       const getUserShareCalendarData = async () => {
@@ -62,26 +75,30 @@ function CustomCalendar({ id, usage }) {
           false,
           null,
           null,
-          `${year}-${month}`
+          `${year}-${formattedMonth}`
         );
         setEventData(res.data.data);
       };
       getUserShareCalendarData();
     }
-  }, [id, usage, year, month, accessToken]);
+  }, [id, usage, year, month, accessToken, isAddBtnClicked]);
 
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
-      const eventsForDay = eventData?.filter((event) => {
-        const start = event?.startDateTime
-          ? new Date(event.startDateTime.replace(' ', 'T'))
-          : new Date();
+      const isSameDay = (date1, date2) =>
+        date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getDate() === date2.getDate();
 
-        const end = event?.endDateTime
-          ? new Date(event.endDateTime.replace(' ', 'T'))
-          : new Date();
+      const eventsForDay = eventData?.filter((event) => {
+        const start = new Date(event.startDateTime.replace(' ', 'T'));
+        const end = new Date(event.endDateTime.replace(' ', 'T'));
         const currentDate = new Date(date);
-        return currentDate >= start && currentDate <= end;
+
+        return (
+          (currentDate >= start && currentDate <= end) ||
+          isSameDay(currentDate, start)
+        );
       });
 
       const isEventDay = eventsForDay?.length > 0;

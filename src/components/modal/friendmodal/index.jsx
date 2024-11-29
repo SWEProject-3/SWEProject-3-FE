@@ -11,7 +11,11 @@ function FriendModal({ onClose }) {
         await postFriendRequest(email);
         onClose();
       } catch (error) {
-        alert('친구 요청에 실패했습니다.');
+        if (error.response.data.code === '400_009') {
+          alert(error.response.data.msg);
+        } else {
+          alert('친구 추가에 실패했습니다.');
+        }
       }
     }
   };

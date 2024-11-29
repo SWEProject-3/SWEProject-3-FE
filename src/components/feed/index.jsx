@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import sortingIcon from '@/assets/feed/sorting.svg';
 import styles from './feed.module.css';
 import FeedSortingModal from '@/components/modal/feedsortingmodal';
 import { getFeedSorting } from '@/api/feedsorting'; // API 호출 함수 가져오기
 import { useLocation, useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash';
 
 function FeedComponent() {
   const [notices, setNotices] = useState([]); // 서버에서 받은 데이터를 저장
@@ -13,30 +14,73 @@ function FeedComponent() {
     totalPages: 0,
     number: 0,
   }); // 페이지 정보
+  const [page, setPage] = useState(0); // 현재 페이지
   const [query, setQuery] = useState(''); // 검색어
   const [sort, setSort] = useState('latest'); // 정렬 기준
+  const noticeBottom = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('query') || '';
 
   // API 데이터 로드
-  const loadNotices = async (page = 0) => {
+  const loadNotices = useCallback(async () => {
+    if (pageInfo.totalPages <= page) return;
+
     try {
       const response = await getFeedSorting(page, searchQuery, sort);
-      console.log(response);
-      setNotices(response.data.data.content); // 공지 데이터 업데이트
-      setPageInfo(response.data.data.page); // 페이지 정보 업데이트
+      const newNotices = response.data.data.content;
+      const newPageInfo = response.data.data.page;
+      setNotices((prevNotices) => [...prevNotices, ...newNotices]);
+      setPageInfo(newPageInfo);
     } catch (error) {
       console.error('Failed to fetch notices:', error);
     }
-  };
+  }, [searchQuery, sort, pageInfo.totalPages, page]);
+  useEffect(() => {
+    loadNotices();
+  }, [page, loadNotices]);
 
   // 초기 로드 및 정렬/검색 변경 시 데이터 갱신
   useEffect(() => {
     setQuery(searchQuery);
-    loadNotices();
-  }, [searchQuery, sort]);
+    const initNotices = async () => {
+      try {
+        const response = await getFeedSorting(page, searchQuery, sort);
+        const newNotices = response.data.data.content;
+        const newPageInfo = response.data.data.page;
+        setNotices(newNotices);
+        setPageInfo(newPageInfo);
+      } catch (error) {
+        console.error('Failed to fetch notices:', error);
+      }
+    };
+    initNotices();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      if (noticeBottom.current) {
+        const { scrollTop, scrollHeight, clientHeight } = noticeBottom.current;
+
+        if (scrollTop + clientHeight >= scrollHeight - 200) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      }
+    }, 200);
+
+    const currentElement = noticeBottom.current;
+
+    if (currentElement) {
+      currentElement.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (currentElement) {
+        currentElement.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
 
   // 정렬 모달 오픈/클로즈
   const onClickSortingBtn = () => {
@@ -96,7 +140,7 @@ function FeedComponent() {
           )}
         </div>
       </div>
-      <div className={styles.feedContainer}>
+      <div className={styles.feedContainer} ref={noticeBottom}>
         <ul className={styles.feedList}>
           {notices.map((noticeItem) => (
             <li
@@ -130,39 +174,6 @@ function FeedComponent() {
             </li>
           ))}
         </ul>
-      </div>
-      {/* 페이지네이션 버튼 */}
-      <div className={styles.paginationWrapper}>
-        <div className={styles.pagination}>
-          {/* 이전 버튼 */}
-          {pageInfo.number > 0 && (
-            <button onClick={() => loadNotices(pageInfo.number - 1)}>
-              이전
-            </button>
-          )}
-
-          {/* 페이지 번호 */}
-          {Array.from({ length: pageInfo.totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => loadNotices(index)}
-              className={
-                pageInfo.number === index
-                  ? styles.currentPage
-                  : styles.pageButton
-              }
-            >
-              {index + 1}
-            </button>
-          ))}
-
-          {/* 다음 버튼 */}
-          {pageInfo.number < pageInfo.totalPages - 1 && (
-            <button onClick={() => loadNotices(pageInfo.number + 1)}>
-              다음
-            </button>
-          )}
-        </div>
       </div>
     </div>
   );

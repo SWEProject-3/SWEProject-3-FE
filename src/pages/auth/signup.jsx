@@ -42,7 +42,8 @@ function Signup() {
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const nameRegex = /^(?:[가-힣]+|[a-zA-Z\s]+)$/;
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+  const passwordRegex =
+    /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*(),.?":{}|<>]{8,16}$/;
 
   return (
     <div className={styles.pageWrapper}>

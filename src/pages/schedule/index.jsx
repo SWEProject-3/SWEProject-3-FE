@@ -127,7 +127,7 @@ function Home() {
             </button>
           </div>
           {isAddBtnClicked && <ScheduleModal onClose={onClickAddModalClose} />}
-          <CustomCalendar usage='schedule' />
+          <CustomCalendar usage='schedule' isAddBtnClicked={isAddBtnClicked} />
           <div className={styles.friendList}>
             <div className={styles.inputWrapper}>
               <input
