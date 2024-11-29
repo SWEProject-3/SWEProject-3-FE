@@ -25,7 +25,7 @@ function FeedComponent() {
 
   // API 데이터 로드
   const loadNotices = useCallback(async () => {
-    if (pageInfo.totalPages <= page) return;
+    if (pageInfo.totalPages <= page && page !== 0) return;
 
     try {
       const response = await getFeedSorting(page, searchQuery, sort);
@@ -38,25 +38,27 @@ function FeedComponent() {
     }
   }, [searchQuery, sort, pageInfo.totalPages, page]);
   useEffect(() => {
+    setQuery(searchQuery);
     loadNotices();
-  }, [page, loadNotices]);
+  }, [page]);
 
   // 초기 로드 및 정렬/검색 변경 시 데이터 갱신
-  useEffect(() => {
-    setQuery(searchQuery);
-    const initNotices = async () => {
-      try {
-        const response = await getFeedSorting(page, searchQuery, sort);
-        const newNotices = response.data.data.content;
-        const newPageInfo = response.data.data.page;
-        setNotices(newNotices);
-        setPageInfo(newPageInfo);
-      } catch (error) {
-        console.error('Failed to fetch notices:', error);
-      }
-    };
-    initNotices();
-  }, []);
+  // useEffect(() => {
+  //   setQuery(searchQuery);
+  //   const initNotices = async () => {
+  //     try {
+  //       const response = await getFeedSorting(page, searchQuery, sort);
+  //       const newNotices = response.data.data.content;
+  //       const newPageInfo = response.data.data.page;
+  //       setNotices(newNotices);
+  //       setPageInfo(newPageInfo);
+  //     } catch (error) {
+  //       console.error('Failed to fetch notices:', error);
+  //     }
+  //   };
+  //   initNotices();
+  //   alert('init ' + page);
+  // }, []);
 
   useEffect(() => {
     const handleScroll = debounce(() => {
